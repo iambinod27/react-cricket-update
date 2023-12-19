@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getMatches } from "../../action/matches/matchesActions.tsx";
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   matchesList: [],
 };
 

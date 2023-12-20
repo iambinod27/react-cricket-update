@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getMatches } from "../../action/matches/matchesActions.tsx";
 
-const initialState = {
+interface IssueInitialState {
+  isLoading: boolean;
+  matchesList: object;
+}
+
+const initialState: IssueInitialState = {
   isLoading: true,
-  matchesList: [],
+  matchesList: {
+    typeMatches: [],
+  },
 };
 
 const matchesSlice = createSlice({

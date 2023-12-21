@@ -24,9 +24,11 @@ const Home: React.FC<HomeProps> = () => {
         <>loading...</>
       ) : (
         <>
-          {moviesList.map((movie) => (
-            <MoviesCard movie={movie} key={movie.id} />
-          ))}
+          <div className="grid grid-cols-3 gap-[10px]">
+            {moviesList.map((movie) => (
+              <MoviesCard movie={movie} key={movie.id} />
+            ))}
+          </div>
         </>
       )}
     </div>

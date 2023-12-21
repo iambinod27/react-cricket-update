@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import sportsAxios from "../../../axios/axios";
 
-export const getMatches = createAsyncThunk("matches/list", async () => {
+export const getMovies = createAsyncThunk("movies/list", async () => {
   try {
-    const res = await sportsAxios.get("/matches/v1/recent", {
+    const res = await sportsAxios.get("/titles", {
       headers: {
         "X-RapidAPI-Key": "fc9ab64ffbmsh44ee1390dc476bbp11ab4bjsn7ebd3d276cc7",
-        "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
       },
     });
     const data = res.data;

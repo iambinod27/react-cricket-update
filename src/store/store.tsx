@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import matchesReducer from "./features/matches/matchesSlice";
+import movieReducer from "./features/movies/moviesSlice";
 
 const store = configureStore({
   reducer: {
-    matches: matchesReducer,
+    movies: movieReducer,
   },
 });
 

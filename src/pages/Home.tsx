@@ -1,52 +1,36 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import { getMatches } from "../store/action/matches/matchesActions";
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import { RootState } from "@/store/store";
+import { getMovies } from "@/store/actions/movies/moviesActions";
+import MoviesCard from "@/components/MoviesCard";
 
-interface typos {
-  typeMatches: [];
-}
+interface HomeProps {}
 
-const Home: FC<typos> = () => {
+const Home: React.FC<HomeProps> = () => {
   const dispatch = useAppDispatch();
-  const { matchesList, isLoading } = useAppSelector(
-    (state: RootState) => state.matches
+  const { moviesList, isLoading } = useAppSelector(
+    (state: RootState) => state.movies
   );
 
-  // console.log(matchesList.typeMatches);
-
-  const matches: {} = matchesList;
-  const typeMatches = matches.typeMatches;
-
-  console.log(matches.typeMatches[0]);
+  console.log(moviesList);
 
   useEffect(() => {
-    dispatch(getMatches());
+    dispatch(getMovies());
   }, [dispatch]);
 
   return (
-    <>
+    <div className="container mx-auto">
       {isLoading ? (
-        <>
-          <p>Loading...</p>
-        </>
+        <>loading...</>
       ) : (
-        <ul className="flex gap-[10px]">
-          {typeMatches.map((match: string, index) => {
-            return (
-              <>
-                <li
-                  className="cursor-pointer hover:underline text-[20px] font-[500] text-[#333]"
-                  key={index}
-                >
-                  {match.matchType}
-                </li>
-              </>
-            );
-          })}
-        </ul>
+        <>
+          {moviesList.map((movie) => (
+            <MoviesCard movie={movie} key={movie.id} />
+          ))}
+        </>
       )}
-    </>
+    </div>
   );
 };
+
 export default Home;

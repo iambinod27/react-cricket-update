@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const sportsAxios = axios.create({
-  baseURL: "https://moviesdatabase.p.rapidapi.com",
+  baseURL: "https://cricbuzz-cricket.p.rapidapi.com",
 });
 
 export default sportsAxios;

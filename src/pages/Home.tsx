@@ -1,34 +1,42 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { useEffect } from "react";
 import { RootState } from "@/store/store";
-import { getMovies } from "@/store/actions/movies/moviesActions";
-import MoviesCard from "@/components/MoviesCard";
+import { getMatches } from "@/store/actions/matches/matchesActions";
+import loading from "../assets/images/loading.gif";
+import Scorecard from "@/components/Scorecard";
+import { uuid } from "uuidv4";
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
   const dispatch = useAppDispatch();
-  const { moviesList, isLoading } = useAppSelector(
-    (state: RootState) => state.movies
+  const { matchesList, isLoading } = useAppSelector(
+    (state: RootState) => state.matches
   );
 
-  console.log(moviesList);
+  console.log(matchesList);
 
   useEffect(() => {
-    dispatch(getMovies());
+    dispatch(getMatches());
   }, [dispatch]);
 
   return (
     <div className="container mx-auto">
       {isLoading ? (
-        <>loading...</>
+        <>
+          <div className="flex items-center justify-center w-full h-screen">
+            <img src={loading} alt="Loading.." />
+          </div>
+        </>
       ) : (
         <>
-          <div className="grid grid-cols-3 gap-[10px]">
-            {moviesList.map((movie) => (
-              <MoviesCard movie={movie} key={movie.id} />
+          <h3 className="text-[30px] font-semibold">Games</h3>
+          <ul className="flex gap-[15px]">
+            {matchesList.map((matches) => (
+              <li>{matches.matchType}</li>
             ))}
-          </div>
+          </ul>
+          <Scorecard />
         </>
       )}
     </div>

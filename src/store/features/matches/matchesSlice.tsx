@@ -5,6 +5,11 @@ interface IssueInitialState {
   isLoading: boolean;
   matchesList: Array<{
     matchType: string;
+    seriesMatches: Array<{
+      seriesId: number;
+      seriesName: string;
+      seriesAdWrapper: {};
+    }>;
   }>;
 }
 

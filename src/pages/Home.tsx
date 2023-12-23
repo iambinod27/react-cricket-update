@@ -4,7 +4,7 @@ import { RootState } from "@/store/store";
 import { getMatches } from "@/store/actions/matches/matchesActions";
 import loading from "../assets/images/loading.gif";
 import Scorecard from "@/components/Scorecard";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 
 interface HomeProps {}
 
@@ -14,11 +14,18 @@ const Home: React.FC<HomeProps> = () => {
     (state: RootState) => state.matches
   );
 
-  console.log(matchesList);
-
   useEffect(() => {
     dispatch(getMatches());
   }, [dispatch]);
+
+  const international = !isLoading
+    ? matchesList[0]?.seriesMatches?.filter((series) =>
+        series.hasOwnProperty("seriesAdWrapper")
+      )
+    : [];
+
+  console.log(matchesList);
+  console.log(international.map((inter) => inter.matches));
 
   return (
     <div className="container mx-auto">
@@ -33,10 +40,19 @@ const Home: React.FC<HomeProps> = () => {
           <h3 className="text-[30px] font-semibold">Games</h3>
           <ul className="flex gap-[15px]">
             {matchesList.map((matches) => (
-              <li>{matches.matchType}</li>
+              <li key={uuidv4()}>{matches.matchType}</li>
             ))}
           </ul>
-          <Scorecard />
+          <div>
+            {international.map((inter) => (
+              <>
+                <div key={inter.seriesId}>
+                  hello
+                  <h2>{inter.seriesName}</h2>
+                </div>
+              </>
+            ))}
+          </div>
         </>
       )}
     </div>

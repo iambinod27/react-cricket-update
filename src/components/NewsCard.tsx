@@ -1,37 +1,63 @@
 import { FC } from "react";
-import NewsImage from "../assets/images/ind-vs-sa.png";
+// import NewsImage from "../assets/images/ind-vs-sa.png";
+// import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+// import { RootState } from "@/store/store";
+// import { getPhotos } from "@/store/actions/photos/photosActions";
+import DotPulse from "./Loading/DotPulse";
 
-interface NewsCardInterface {
-  news: {
-    story: {
-      hline: string;
-      intro: string;
-      id: number;
-      source: string;
-      context: string;
-    };
+interface News {
+  story: {
+    hline: string;
+    intro: string;
+    source: string;
+    context: string;
+    storyType: string;
+    imageId: string;
   };
 }
 
-const NewsCard: FC<NewsCardInterface> = ({ news }) => {
-  console.log(news);
+interface NewsCardInterface {
+  news: News;
+}
+
+const NewsCard: FC<NewsCardInterface> = ({ news, image }) => {
+  // const dispatch = useAppDispatch();
+  // const { Photo, isLoading } = useAppSelector(
+  //   (state: RootState) => state.photos
+  // );
+
+  // const imageID = news.story.imageId;
+
+  // useEffect(() => {
+  //   dispatch(getPhotos(imageID));
+  // }, [imageID]);
+
+  // console.log(Photo);
+
   return (
     <>
       <div className="p-4 border border-[#d7d7d7] drop-shadow-md mb-9 bg-[#fff]">
         <div className="mb-[15px]">
           <span className="px-[10px] py-[5px] text-[#fff] bg-[#4685d8] rounded mr-[10px] text-[15px] font-[500]">
-            Axed
+            {news.story.storyType}
           </span>
-          <span className="text-[15px] font-[500]">{news.story.context}</span>
+          <span className="text-[15px] font-[600]">{news.story.context}</span>
         </div>
-        <div className="flex flex-col lg:flex-row gap-[20px] ">
-          <div className="max-w-[400px] mx-auto">
-            <img
-              src={NewsImage}
-              alt="Jayed didn't get an opportunity in New Zealand and South Africa as well."
-            />
+        <div className="flex flex-col lg:flex-row gap-[20px] items-center">
+          <div className="max-w-[220px] w-full mx-auto">
+            {image ? (
+              <img
+                src={image}
+                alt={news.story.hline}
+                className="object-cover w-full"
+              />
+            ) : (
+              <div className="flex items-center justify-center">
+                <DotPulse />
+              </div>
+            )}
           </div>
-          <div className="p-[10px]">
+          <div className="p-[10px] max-w-[718px] w-full">
             <h3 className="text-[30px] font-semibold mb-[10px] leading-normal">
               {news.story.hline}
             </h3>

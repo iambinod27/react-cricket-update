@@ -5,7 +5,7 @@ export const getMatches = createAsyncThunk("movies/list", async () => {
   try {
     const res = await sportsAxios.get("/matches/v1/recent", {
       headers: {
-        "X-RapidAPI-Key": "fc9ab64ffbmsh44ee1390dc476bbp11ab4bjsn7ebd3d276cc7",
+        "X-RapidAPI-Key": "384ab89b77msh4b87da90f1a2dfbp1aad0bjsndcbaa574b3a1",
         "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
       },
     });

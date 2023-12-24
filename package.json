@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-progress": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@reduxjs/toolkit": "^2.0.1",
@@ -21,8 +22,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.20.1",
-    "tailwind-merge": "^2.1.0",
-    "tailwindcss-animate": "^1.0.7",
+    "rippleui": "^1.12.1",
     "uuid": "^9.0.1",
     "uuidv4": "^6.2.13"
   },

@@ -6,7 +6,7 @@ const Layout = () => {
     <>
       <Nav />
 
-      <div className="container mx-auto font-rethink-sans">
+      <div className="container mx-auto pt-[100px] ">
         <Outlet />
       </div>
     </>

@@ -4,6 +4,7 @@ import { RootState } from "@/store/store";
 import { v4 as uuidv4 } from "uuid";
 import { FC, useEffect, useState } from "react";
 import DotPulse from "@/components/Loading/DotPulse";
+import Scorecard from "@/components/Scorecard";
 
 interface MatchesProps {}
 
@@ -19,35 +20,7 @@ const Matches: FC<MatchesProps> = () => {
     dispatch(getMatches());
   }, [dispatch]);
 
-  // matchesList.map((match) => match.seriesMatches).map(inrArr => inrArr).map(filterName => filterName).map(a => console.log(a));
-
-  console.log(matchesList.map(match => match));
-  // console.log(matchesList.map(match => match.seriesMatches).map(seriesMatch => console.log(seriesMatch.seriesAdWrapper)));
-  // let realMatchList:object[] = [];
-
-  // const matchList =  matchesList.map(match => match.seriesMatches);
-  // // console.log(matchList);
-
-  // matchList.forEach(inrArr => {
-  //   inrArr.forEach(seriesAd => {
-  //     if(seriesAd.seriesAdWrapper != undefined) {
-  //       realMatchList.push(seriesAd.seriesAdWrapper);
-  //     }
-  //   });
-  // });
-
-  // console.log(realMatchList);
-
-  // let data = matchList.map
-  // const newsAddWrapper = matchList.map(inrArr => inrArr);
-
-  // console.log(newsAddWrapper);
-
-  // console.log( const newsStory = newsList.filter((news) => news.hasOwnProperty("story"));)
-
-  // console.log(matchesList);
-
-  // console.log(matchesList.filter(match => match.seriesMatches)))
+  console.log(matchesList[0].seriesMatches);
 
   return (
     <div className="container mx-auto">
@@ -75,14 +48,26 @@ const Matches: FC<MatchesProps> = () => {
               </div>
             ))}
           </div>
-          <div>
-            {matchesList[activeTab]?.seriesMatches?.map((match) => ((match.seriesAdWrapper != undefined ? <div key={uuidv4()}>{match.seriesAdWrapper.seriesName}</div> : "")
-              // return (<div key={uuidv4()}>
-              //   {/* <p>{console.log(match.seriesId)}</p> */}
-              //   {(match.seriesAdWrapper != undefined &&  )? match.seriesAdWrapper.seriesName : ""}
-              //   {/* Render content for each match */}
-              // </div>);
-            ))}
+          <div className="py-[50px]">
+            {matchesList[activeTab]?.seriesMatches?.map((match) =>
+              match.seriesAdWrapper != undefined ? (
+                <div
+                  key={match.seriesAdWrapper.seriesId}
+                  className="[&:not(:last-child)]:mb-[20px]"
+                >
+                  <h2 className="text-[25px] capitalize font-[700] text-justify px-[10px] py-[10px]">
+                    {match.seriesAdWrapper.seriesName}
+                  </h2>
+                  <div className="grid grid-cols-2 gap-[15px] p-5">
+                    {match.seriesAdWrapper.matches.map((mat) => (
+                      <Scorecard info={mat} />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )
+            )}
           </div>
         </>
       )}

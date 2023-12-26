@@ -8,6 +8,7 @@ export const getPhotos = createAsyncThunk("getImage", async (payload) => {
     const res = await sportsAxios.get(`/img/v1/i1/c${payload}/i.jpg`, {
       responseType: "blob",
     });
+
     if (res.status === 200) {
       const imageUrl = URL.createObjectURL(res.data);
       return imageUrl;

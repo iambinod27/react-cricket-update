@@ -1,8 +1,8 @@
-import { FC } from "react";
-// import NewsImage from "../assets/images/ind-vs-sa.png";
-// import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-// import { RootState } from "@/store/store";
-// import { getPhotos } from "@/store/actions/photos/photosActions";
+import { FC, useEffect } from "react";
+import NewsImage from "../assets/images/ind-vs-sa.png";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { RootState } from "@/store/store";
+import { getPhotos } from "@/store/actions/photos/photosActions";
 import DotPulse from "./Loading/DotPulse";
 
 interface News {
@@ -20,19 +20,18 @@ interface NewsCardInterface {
   news: News;
 }
 
-const NewsCard: FC<NewsCardInterface> = ({ news, image }) => {
-  // const dispatch = useAppDispatch();
-  // const { Photo, isLoading } = useAppSelector(
-  //   (state: RootState) => state.photos
-  // );
+const NewsCard: FC<NewsCardInterface> = ({ news }) => {
+  const dispatch = useAppDispatch();
+  const { Photo } = useAppSelector((state: RootState) => state.photos);
 
-  // const imageID = news.story.imageId;
+  const imageID = news.story.imageId;
+  console.log(`photos :${imageID}`);
 
-  // useEffect(() => {
-  //   dispatch(getPhotos(imageID));
-  // }, [imageID]);
+  console.log("photos");
 
-  // console.log(Photo);
+  useEffect(() => {
+    dispatch(getPhotos(imageID));
+  }, [imageID]);
 
   return (
     <>
@@ -45,9 +44,9 @@ const NewsCard: FC<NewsCardInterface> = ({ news, image }) => {
         </div>
         <div className="flex flex-col lg:flex-row gap-[20px] items-center">
           <div className="max-w-[220px] w-full mx-auto">
-            {image ? (
+            {Photo ? (
               <img
-                src={image}
+                src={Photo}
                 alt={news.story.hline}
                 className="object-cover w-full"
               />

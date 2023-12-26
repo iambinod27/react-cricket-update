@@ -10,6 +10,10 @@ module.exports = {
     fontFamily: {
       Raleway: ["Raleway", "sans-serif"],
     },
+    // colors: {
+    //   primary: "#235264",
+    //   backgroundPrimary: "#964643",
+    // },
   },
   rippleui: {
     removeThemes: ["dark", "light", "whateverTheme"],

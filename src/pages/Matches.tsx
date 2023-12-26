@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getMatches } from "@/store/actions/matches/matchesActions";
 import { RootState } from "@/store/store";
-import loading from "../assets/images/loading.gif";
 import { v4 as uuidv4 } from "uuid";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
+import DotPulse from "@/components/Loading/DotPulse";
 
 interface MatchesProps {}
 
@@ -13,43 +13,47 @@ const Matches: FC<MatchesProps> = () => {
     (state: RootState) => state.matches
   );
 
+  const [activeTab, setActiveTab] = useState(0);
+
   useEffect(() => {
     dispatch(getMatches());
   }, [dispatch]);
 
-  const international = !isLoading
-    ? matchesList[0]?.seriesMatches?.filter((series) =>
-        series.hasOwnProperty("seriesAdWrapper")
-      )
-    : [];
-
-  //   console.log(matchesList);
-  //   console.log(international.map((inter) => inter.matches));
+  console.log(matchesList.map((match) => match.seriesMatches));
 
   return (
     <div className="container mx-auto">
       {isLoading ? (
         <>
           <div className="flex items-center justify-center w-full h-screen">
-            <img src={loading} alt="Loading.." />
+            <DotPulse />
           </div>
         </>
       ) : (
         <>
           <h3 className="text-[30px] font-semibold">Games</h3>
-          <ul className="flex gap-[15px]">
-            {matchesList.map((matches) => (
-              <li key={uuidv4()}>{matches.matchType}</li>
+          <div className="tabs justify-center w-full">
+            {matchesList.map((matches, index) => (
+              <div
+                onClick={() => setActiveTab(index)}
+                className={`px-5 py-3 cursor-pointer border-b-[4px] transition-all ease-linear duration-150  border-2-[#333]${
+                  activeTab === index
+                    ? "tab-underline pb-3 border-b border-2-[#333] text-[#333] tab-active "
+                    : ""
+                }`}
+                key={uuidv4()}
+              >
+                {matches.matchType}
+              </div>
             ))}
-          </ul>
+          </div>
           <div>
-            {international.map((inter) => (
-              <>
-                <div key={inter.seriesId}>
-                  hello
-                  <h2>{inter.seriesName}</h2>
-                </div>
-              </>
+            {matchesList[activeTab]?.seriesMatches?.map((match) => (
+              <div key={match.seriesId}>
+                hello
+                {/* {match.seriesAdWrapper.seriesName} */}
+                {/* Render content for each match */}
+              </div>
             ))}
           </div>
         </>

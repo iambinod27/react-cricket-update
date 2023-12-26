@@ -19,7 +19,35 @@ const Matches: FC<MatchesProps> = () => {
     dispatch(getMatches());
   }, [dispatch]);
 
-  console.log(matchesList.map((match) => match.seriesMatches));
+  // matchesList.map((match) => match.seriesMatches).map(inrArr => inrArr).map(filterName => filterName).map(a => console.log(a));
+
+  console.log(matchesList.map(match => match));
+  // console.log(matchesList.map(match => match.seriesMatches).map(seriesMatch => console.log(seriesMatch.seriesAdWrapper)));
+  // let realMatchList:object[] = [];
+
+  // const matchList =  matchesList.map(match => match.seriesMatches);
+  // // console.log(matchList);
+
+  // matchList.forEach(inrArr => {
+  //   inrArr.forEach(seriesAd => {
+  //     if(seriesAd.seriesAdWrapper != undefined) {
+  //       realMatchList.push(seriesAd.seriesAdWrapper);
+  //     }
+  //   });
+  // });
+
+  // console.log(realMatchList);
+
+  // let data = matchList.map
+  // const newsAddWrapper = matchList.map(inrArr => inrArr);
+
+  // console.log(newsAddWrapper);
+
+  // console.log( const newsStory = newsList.filter((news) => news.hasOwnProperty("story"));)
+
+  // console.log(matchesList);
+
+  // console.log(matchesList.filter(match => match.seriesMatches)))
 
   return (
     <div className="container mx-auto">
@@ -48,12 +76,12 @@ const Matches: FC<MatchesProps> = () => {
             ))}
           </div>
           <div>
-            {matchesList[activeTab]?.seriesMatches?.map((match) => (
-              <div key={match.seriesId}>
-                hello
-                {/* {match.seriesAdWrapper.seriesName} */}
-                {/* Render content for each match */}
-              </div>
+            {matchesList[activeTab]?.seriesMatches?.map((match) => ((match.seriesAdWrapper != undefined ? <div key={uuidv4()}>{match.seriesAdWrapper.seriesName}</div> : "")
+              // return (<div key={uuidv4()}>
+              //   {/* <p>{console.log(match.seriesId)}</p> */}
+              //   {(match.seriesAdWrapper != undefined &&  )? match.seriesAdWrapper.seriesName : ""}
+              //   {/* Render content for each match */}
+              // </div>);
             ))}
           </div>
         </>

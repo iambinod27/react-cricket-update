@@ -20,7 +20,7 @@ const Matches: FC<MatchesProps> = () => {
     dispatch(getMatches());
   }, [dispatch]);
 
-  console.log(matchesList[0].seriesMatches);
+  console.log(matchesList);
 
   return (
     <div className="container mx-auto">
@@ -58,9 +58,9 @@ const Matches: FC<MatchesProps> = () => {
                   <h2 className="text-[25px] capitalize font-[700] text-justify px-[10px] py-[10px]">
                     {match.seriesAdWrapper.seriesName}
                   </h2>
-                  <div className="grid grid-cols-2 gap-[15px] p-5">
-                    {match.seriesAdWrapper.matches.map((mat) => (
-                      <Scorecard info={mat} />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[15px] p-5">
+                    {match.seriesAdWrapper.matches.map((mat: any) => (
+                      <Scorecard info={mat} key={mat.matchInfo.matchId} />
                     ))}
                   </div>
                 </div>

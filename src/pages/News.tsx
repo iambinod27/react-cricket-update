@@ -31,8 +31,8 @@ const News: FC<NewsInterface> = () => {
           Array.from({ length: 3 }, () => <LoadingNewsCard />)
         ) : (
           <>
-            {newsStory.map((news, index) => (
-              <NewsCard news={news} key={news.story.id} image="" />
+            {newsStory.map((news: any) => (
+              <NewsCard news={news} key={news.story.id} />
             ))}
           </>
         )}

@@ -1,4 +1,25 @@
-const Scorecard = ({ info }) => {
+import { FC } from "react";
+
+interface ScorecardInterface {
+  info: {
+    matchInfo: {
+      matchFormat: string;
+      venueInfo: {
+        ground: string;
+        city: string;
+      };
+      team1: {
+        teamSName: string;
+      };
+      team2: {
+        teamSName: string;
+      };
+      status: string;
+    };
+  };
+}
+
+const Scorecard: FC<ScorecardInterface> = ({ info }) => {
   return (
     <>
       <div className=" shadow-lg bg-white text-[#222] rounded-lg p-[10px] border-[1px] border-[#e6e6e6]">

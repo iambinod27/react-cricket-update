@@ -8,7 +8,15 @@ interface IssueInitialState {
     seriesMatches: Array<{
       seriesId: number;
       seriesName: string;
-      seriesAdWrapper: {};
+      seriesAdWrapper: {
+        seriesId: number;
+        seriesName: string;
+        matches: Array<{
+          matchInfo: {
+            matchId: number;
+          };
+        }>;
+      };
     }>;
   }>;
 }

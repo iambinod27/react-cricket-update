@@ -1,4 +1,4 @@
-import { getNews } from "@/store/actions/news/newsActions";
+import { getNews, getNewsDetail } from "@/store/actions/news/newsActions";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface NewsInitialState {
@@ -8,17 +8,25 @@ interface NewsInitialState {
       id: number;
     };
   }>;
+  news: {
+    headline: string;
+  };
 }
 
 const initialState: NewsInitialState = {
   isLoading: true,
   newsList: [],
+  news: {},
 };
 
 const newsSlice = createSlice({
   name: "news",
   initialState,
-  reducers: {},
+  reducers: {
+    newsCleanUp: (state) => {
+      state.news = {};
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getNews.pending, (state) => {
       state.isLoading = true;
@@ -30,7 +38,19 @@ const newsSlice = createSlice({
     builder.addCase(getNews.rejected, (state) => {
       state.isLoading = true;
     });
+    builder.addCase(getNewsDetail.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getNewsDetail.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.news = action.payload;
+    });
+    builder.addCase(getNewsDetail.rejected, (state) => {
+      state.isLoading = true;
+    });
   },
 });
+
+export const { newsCleanUp } = newsSlice.actions;
 
 export default newsSlice.reducer;

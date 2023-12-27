@@ -4,6 +4,7 @@ import { RootState } from "@/store/store";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getNews } from "@/store/actions/news/newsActions";
 import { FC, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 interface NewsInterface {}
 
@@ -28,7 +29,7 @@ const News: FC<NewsInterface> = () => {
       </h2>
       <div className="max-w-[992px] mx-auto">
         {isLoading ? (
-          Array.from({ length: 3 }, () => <LoadingNewsCard />)
+          Array.from({ length: 3 }, () => <LoadingNewsCard key={uuidv4()} />)
         ) : (
           <>
             {newsStory.map((news: any) => (

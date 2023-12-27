@@ -14,7 +14,7 @@ const News: FC<NewsInterface> = () => {
   );
 
   const newsStory = newsList.filter((news) => news.hasOwnProperty("story"));
-  console.log(newsStory);
+  // console.log(newsStory);
 
   // GET NEWS
   useEffect(() => {

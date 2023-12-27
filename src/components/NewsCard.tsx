@@ -25,9 +25,9 @@ const NewsCard: FC<NewsCardInterface> = ({ news }) => {
   const { Photo } = useAppSelector((state: RootState) => state.photos);
 
   const imageID = news.story.imageId;
-  console.log(`photos :${imageID}`);
+  // console.log(`photos :${imageID}`);
 
-  console.log("photos");
+  // console.log("photos");
 
   useEffect(() => {
     dispatch(getPhotos(imageID));

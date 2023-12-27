@@ -23,6 +23,23 @@ interface ScorecardInterface {
           runs: number;
           wickets: number;
         };
+        inngs2: {
+          overs: number;
+          runs: number;
+          wickets: number;
+        };
+      };
+      team2Score: {
+        inngs1: {
+          overs: number;
+          runs: number;
+          wickets: number;
+        };
+        inngs2: {
+          overs: number;
+          runs: number;
+          wickets: number;
+        };
       };
     };
   };
@@ -49,25 +66,81 @@ const Scorecard: FC<ScorecardInterface> = ({ info }) => {
               {info.matchInfo.team1.teamSName}
             </p>
 
-            <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-              <span className="text-[13px] font-[400] text-[#3f3f3f] leading-[0px]">
-                ({info.matchScore?.team1Score.inngs1.overs} ov)
-              </span>
-              {info.matchScore?.team1Score?.inngs1.runs}/
-              {info.matchScore?.team1Score?.inngs1?.wickets}
-            </p>
+            {info.matchScore != undefined ? (
+              info.matchInfo.matchFormat != "TEST" ? (
+                <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
+                  <span className="text-[13px] font-[400] text-[#3f3f3f]">
+                    ({info.matchScore?.team1Score?.inngs1.overs} ov)
+                  </span>
+                  {info.matchScore?.team1Score?.inngs1.runs}/
+                  {info.matchScore?.team1Score?.inngs1?.wickets}
+                </p>
+              ) : (
+                <>
+                  <div className="flex gap-[5px]">
+                    <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
+                      {info.matchScore?.team1Score?.inngs1?.runs}/
+                      {info.matchScore?.team1Score?.inngs1?.wickets}
+                    </p>
+                    {info.matchScore.team1Score.inngs2 != undefined ? (
+                      <>
+                        &
+                        <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
+                          {info.matchScore?.team1Score?.inngs2?.runs}/
+                          {info.matchScore?.team1Score?.inngs2?.wickets}
+                        </p>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </>
+              )
+            ) : (
+              <p className="font-[400] text-[18px]">N/A</p>
+            )}
           </div>
           <div className="flex justify-between">
             <p className="text-[18px] font-[700]">
               {info.matchInfo.team2.teamSName}
             </p>
-            <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-              <span className="text-[13px] font-[400] text-[#3f3f3f]">
-                ({info.matchScore?.team2Score?.inngs1.overs} ov)
-              </span>
-              {info.matchScore?.team2Score?.inngs1.runs}/
-              {info.matchScore?.team2Score?.inngs1?.wickets}
-            </p>
+            {info.matchScore != undefined ? (
+              info.matchInfo.matchFormat != "TEST" ? (
+                <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
+                  <span className="text-[13px] font-[400] text-[#3f3f3f]">
+                    ({info.matchScore?.team2Score?.inngs1.overs} ov)
+                  </span>
+                  {info.matchScore?.team2Score?.inngs1.runs}/
+                  {info.matchScore?.team2Score?.inngs1?.wickets}
+                </p>
+              ) : (
+                <>
+                  <div className="flex gap-[5px]">
+                    {info.matchScore.team2Score != undefined ? (
+                      <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
+                        {info.matchScore?.team2Score?.inngs1.runs}/
+                        {info.matchScore?.team2Score?.inngs1?.wickets}
+                      </p>
+                    ) : (
+                      <p className="font-[400] text-[18px]">N/A</p>
+                    )}
+                    {info.matchScore.team2Score.inngs2 != undefined ? (
+                      <>
+                        &
+                        <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
+                          {info.matchScore?.team2Score?.inngs2?.runs}/
+                          {info.matchScore?.team2Score?.inngs2?.wickets}
+                        </p>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </>
+              )
+            ) : (
+              <p className="font-[400] text-[18px]">N/A</p>
+            )}
           </div>
         </div>
         <p className="text-[13px] font-[400] capitalize">

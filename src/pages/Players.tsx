@@ -5,6 +5,7 @@ import { RootState } from "@/store/store";
 import { useEffect } from "react";
 import PlayersCard from "@/components/PlayersCard";
 import { v4 as uuidv4 } from "uuid";
+import PlayerCard from "@/components/Loading/PlayerCard";
 
 const Players = () => {
   const dispatch = useAppDispatch();
@@ -34,8 +35,12 @@ const Players = () => {
         </>
       ) : (
         <>
-          <div className="flex items-center justify-center min-h-screen">
-            <DotPulse />
+          <div className="py-[40px]">
+            <div className="grid grid-cols-4 gap-[30px] py-[30px]">
+              {Array.from({ length: 8 }, () => (
+                <PlayerCard key={uuidv4()} />
+              ))}
+            </div>
           </div>
         </>
       )}

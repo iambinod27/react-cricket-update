@@ -21,7 +21,7 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
     dispatch(getNewsDetail(params?.id));
     dispatch(newsCleanUp());
   }, [params.id]);
-  console.log(news.publishTime);
+  console.log(news);
 
   //   console.log(ActualDate);
 
@@ -46,11 +46,7 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
             <div className="max-w-[975px] my-[15px]">
               <img src={kane} alt={news.intro} />
             </div>
-            <div>
-              {news.content.map((conten: any) =>
-                conten.content != undefined ? <p>{conten.contentValue}</p> : ""
-              )}
-            </div>
+            <div></div>
           </div>
         </>
       ) : (

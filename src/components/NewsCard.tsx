@@ -57,13 +57,13 @@ const NewsCard: FC<NewsCardInterface> = ({ news }) => {
               </div>
             )}
           </div>
-          <div className="p-[10px] max-w-[718px] w-full">
-            <h3 className="text-[30px] font-semibold mb-[10px] leading-normal">
+          <div className="px-[10px] max-w-[718px] w-full">
+            <h3 className="text-[36px] font-semibold mb-[10px] leading-[38px]">
               <Link to={`/newsdetail/${news.story.id}`}>
                 {news.story.hline}
               </Link>
             </h3>
-            <p className="line-clamp-2 lg:line-clamp-3 text-[20px] font-[400] leading-normal">
+            <p className="line-clamp-2 lg:line-clamp-3 text-[20px] font-[400] leading-[26px]">
               {news.story.intro}
             </p>
           </div>

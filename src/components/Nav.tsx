@@ -15,7 +15,7 @@ const Nav = () => {
       <div className="navbar navbar-sticky navbar-glass py-0 bg-[#fff]">
         <div className="navbar-start">
           <Link to="/" className="font-[600] text-[20px]">
-            <p className="navbar-item">CricUp</p>
+            <p className="navbar-item">Cric<span className="text-[#c24a38]">Up</span></p>
           </Link>
         </div>
         <div className="navbar-end text-[16px] uppercase font-[500]">
@@ -23,7 +23,7 @@ const Nav = () => {
             <Link
               to={navL.link}
               key={uuidv4()}
-              className="border-b-2 border-b-white rounded-none hover:border-b-black py-[20px] px-[0.75rem]"
+              className="border-b-2 border-b-white rounded-none hover:border-b-[#c24a38] py-[20px] px-[0.75rem]"
             >
               <p className="navbar-item">{navL.title}</p>
             </Link>

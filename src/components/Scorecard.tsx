@@ -3,7 +3,9 @@ import { FC } from "react";
 interface ScorecardInterface {
   info: {
     matchInfo: {
+      matchDesc: string;
       matchFormat: string;
+      seriesName: string;
       venueInfo: {
         ground: string;
         city: string;
@@ -49,11 +51,13 @@ const Scorecard: FC<ScorecardInterface> = ({ info }) => {
   return (
     <>
       <div className=" shadow-lg bg-white text-[#222] rounded-lg p-[10px] border-[1px] border-[#e6e6e6]">
-        <div className="flex gap-[5px] border-b-[#6e6e6e] items-baseline flex-col">
-          <p className="uppercase text-[15px] font-bold">Result</p>
-          <div className="flex align-center gap-[5px]">
+        <div className="flex border-b-[#6e6e6e] items-baseline flex-col">
+          <p className="uppercase text-[15px] font-bold">
+            Result - {info.matchInfo.matchFormat}
+          </p>
+          <div className="flex align-center flex-col">
             <p className="capitalize text-[14px] font-[500]">
-              {info.matchInfo.matchFormat}
+              {info.matchInfo.matchDesc} , {info.matchInfo.seriesName}
             </p>
             <p className="capitalize text-[12px] font-[400] leading-[21px]">
               {info.matchInfo.venueInfo.ground}, {info.matchInfo.venueInfo.city}

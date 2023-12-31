@@ -8,7 +8,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      Raleway: ["Raleway", "sans-serif"],
+      OpenSans: ["Open Sans", "sans-serif"],
     },
     // colors: {
     //   primary: "#235264",

@@ -16,8 +16,6 @@ export const getPhotos = createAsyncThunk(
       } else {
         console.error("Error fetching image:", res.statusText);
       }
-      const data = await res.data;
-      return data;
     } catch (error) {
       throw error;
     }

@@ -1,10 +1,10 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getMatches } from "@/store/actions/matches/matchesActions";
 import { RootState } from "@/store/store";
-import { v4 as uuidv4 } from "uuid";
 import { FC, useEffect, useState } from "react";
 import DotPulse from "@/components/Loading/DotPulse";
 import Scorecard from "@/components/Scorecard";
+import { v4 as uuidv4 } from "uuid";
 
 interface MatchesProps {}
 
@@ -20,7 +20,7 @@ const Matches: FC<MatchesProps> = () => {
     dispatch(getMatches());
   }, [dispatch]);
 
-  console.log(matchesList);
+  // console.log(matchesList);
 
   return (
     <div className="container mx-auto">
@@ -37,12 +37,12 @@ const Matches: FC<MatchesProps> = () => {
             {matchesList.map((matches, index) => (
               <div
                 onClick={() => setActiveTab(index)}
+                key={uuidv4()}
                 className={`px-5 py-3 cursor-pointer border-b-[4px] transition-all ease-linear duration-150  border-2-[#333]${
                   activeTab === index
                     ? "tab-underline pb-3 border-b border-2-[#333] text-[#333] tab-active "
                     : ""
                 }`}
-                key={uuidv4()}
               >
                 {matches.matchType}
               </div>

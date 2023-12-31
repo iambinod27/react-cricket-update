@@ -6,14 +6,16 @@ import { useEffect } from "react";
 
 const PlayersCard = ({ player }) => {
   const dispatch = useAppDispatch();
-  const imageID = player.id;
   const { Photo } = useAppSelector((state: RootState) => state.photos);
+  const imageID = player.faceImageId;
+
+  console.log(player);
 
   useEffect(() => {
     dispatch(getPhotos(imageID));
-  }, [dispatch, imageID]);
+  }, [imageID]);
   return (
-    <div className="border shadow-lg p-[15px] rounded-[20px]">
+    <div className="border shadow-lg  rounded-[20px] overflow-hidden">
       <div className="mb-[10px] min-h-[300px] flex items-center">
         {Photo ? (
           <img src={Photo} alt={player.name} className="object-cover  h-full" />
@@ -21,8 +23,10 @@ const PlayersCard = ({ player }) => {
           <img src={patCummins} alt={player.name} />
         )}
       </div>
-      <p className="text-[24px] leading-[32px] font-[600]">{player.name}</p>
-      <p className="text-[18px] font-[400]">{player.teamName}</p>
+      <div className="p-[15px]">
+        <p className="text-[24px] leading-[32px] font-[600]">{player.name}</p>
+        <p className="text-[18px] font-[400]">{player.teamName}</p>
+      </div>
     </div>
   );
 };

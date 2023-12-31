@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface PhotoInitialState {
   PhotoLoading: boolean;
-  Photo: any;
+  Photo: string;
 }
 
 const initialState: PhotoInitialState = {

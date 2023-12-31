@@ -3,10 +3,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getNewsDetail } from "@/store/actions/news/newsActions";
 import { newsCleanUp } from "@/store/features/news/newsSlice";
 import { RootState } from "@/store/store";
-import convertMillisecondsToDate from "@/utils/dateConveter";
 import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import kane from "../assets/images/kane.webp";
+import { getPhotos } from "@/store/actions/photos/photosActions";
+import { photoCleanUp } from "@/store/features/photos/photosSlice";
 
 interface NewsDetailInterface {}
 
@@ -14,26 +15,30 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const { news, isLoading } = useAppSelector((state: RootState) => state.news);
-
-  console.log(news);
+  const { Photo } = useAppSelector((state: RootState) => state.photos);
 
   useEffect(() => {
     dispatch(getNewsDetail(params?.id));
+    dispatch(photoCleanUp());
     dispatch(newsCleanUp());
   }, [params.id]);
-  console.log(news);
 
-  //   console.log(ActualDate);
+  useEffect(() => {
+    dispatch(getPhotos(news.coverImage?.id));
+  }, [news.coverImage?.id]);
+
+  const author = news.authors?.map((author: any) => author.name);
+  console.log(news);
 
   return (
     <div>
       {!isLoading ? (
         <>
-          <div className="max-w-[1060px] mx-auto">
-            <h2 className="text-[32px] font-[700] tracking-wide">
+          <div className="container mx-auto">
+            <h2 className="text-[42px] font-[800] tracking-wide leading-[48px] text-[#333] ">
               {news.headline}
             </h2>
-            <div className="flex items-baseline gap-[10px] my-[5px]">
+            <div className="flex items-baseline gap-[10px] my-[15px]">
               <p className="bg-[#398ac4] text-[#fff] inline p-[5px] rounded">
                 {news.storyType}
               </p>
@@ -42,11 +47,35 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
                 <span className="font-[700] leading-[0]">{news.source}</span>,
               </p>
             </div>
-            <p>{news.intro}</p>
-            <div className="max-w-[975px] my-[15px]">
-              <img src={kane} alt={news.intro} />
+            <p className="italic">
+              {news.context} , Published : 12 Dec 2023 by {author}
+            </p>
+            <p className="text-[20px] font-[400] leading-[32px]">
+              {news.intro}
+            </p>
+            <div className="max-w-full relative mt-[15px]">
+              {Photo ? (
+                <>
+                  <img src={Photo} alt={news.coverImage?.caption} />
+                  <p className="absolute bottom-0  w-full bg-[#000000a9] px-[10px] py-[20px] text-[#fcfcfc] text-[16px]">
+                    {news.coverImage?.caption} • {news.coverImage?.source}
+                  </p>
+                </>
+              ) : (
+                <img src={kane} alt={news.coverImage?.caption} />
+              )}
             </div>
-            <div></div>
+            <div className="py-[30px]">
+              {news.content?.map((text) =>
+                text.content != undefined ? (
+                  <p className="first:first-letter:text-[52px] text-[22px] [&:not(:last-child)]:mb-[20px] font-[500] leading-normal">
+                    {text.content?.contentValue}
+                  </p>
+                ) : (
+                  ""
+                )
+              )}
+            </div>
           </div>
         </>
       ) : (

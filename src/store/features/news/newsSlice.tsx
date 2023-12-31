@@ -9,7 +9,24 @@ interface NewsInitialState {
     };
   }>;
   news: {
+    coverImage: {
+      id: number;
+      caption: string;
+      source: string;
+    };
     headline: string;
+    authors: Array<{
+      name: string;
+    }>;
+    storyType: string;
+    source: string;
+    context: string;
+    intro: string;
+    content: Array<{
+      content: {
+        contentValue: string;
+      };
+    }>;
   };
 }
 

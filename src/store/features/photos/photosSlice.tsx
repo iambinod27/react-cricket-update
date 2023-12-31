@@ -2,31 +2,37 @@ import { getPhotos } from "@/store/actions/photos/photosActions";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface PhotoInitialState {
-  isLoading: boolean;
+  PhotoLoading: boolean;
   Photo: any;
 }
 
 const initialState: PhotoInitialState = {
-  isLoading: true,
+  PhotoLoading: true,
   Photo: "",
 };
 
 const photoSlice = createSlice({
   name: "photos",
   initialState,
-  reducers: {},
+  reducers: {
+    photoCleanUp: (state) => {
+      state.Photo = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPhotos.pending, (state) => {
-      state.isLoading = true;
+      state.PhotoLoading = true;
     });
     builder.addCase(getPhotos.fulfilled, (state, action) => {
-      state.isLoading = false;
+      state.PhotoLoading = false;
       state.Photo = action.payload;
     });
     builder.addCase(getPhotos.rejected, (state) => {
-      state.isLoading = true;
+      state.PhotoLoading = true;
     });
   },
 });
+
+export const { photoCleanUp } = photoSlice.actions;
 
 export default photoSlice.reducer;

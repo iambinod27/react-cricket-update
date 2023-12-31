@@ -27,7 +27,7 @@ const News: FC<NewsInterface> = () => {
       <h2 className="font-[700] text-[55px] pb-[15px] border-b border-b-[#515151] mb-[30px]">
         News
       </h2>
-      <div className="max-w-[992px] mx-auto">
+      <div className="container mx-auto">
         {isLoading ? (
           Array.from({ length: 3 }, () => <LoadingNewsCard key={uuidv4()} />)
         ) : (

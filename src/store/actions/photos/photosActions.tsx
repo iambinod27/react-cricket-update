@@ -7,6 +7,7 @@ export const getPhotos = createAsyncThunk(
     try {
       const res = await sportsAxios.get(`/img/v1/i1/c${payload}/i.jpg`, {
         responseType: "blob",
+        params: { p: "de", d: "high" },
       });
 
       if (res.status === 200) {

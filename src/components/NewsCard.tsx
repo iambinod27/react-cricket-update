@@ -4,6 +4,7 @@ import { RootState } from "@/store/store";
 import { getPhotos } from "@/store/actions/photos/photosActions";
 import DotPulse from "./Loading/DotPulse";
 import { Link } from "react-router-dom";
+import NewsImage from "./NewsImage";
 
 interface News {
   story: {
@@ -12,7 +13,7 @@ interface News {
     source: string;
     context: string;
     storyType: string;
-    imageId: string;
+    imageId: number;
     id: number;
   };
 }
@@ -22,18 +23,6 @@ interface NewsCardInterface {
 }
 
 const NewsCard: FC<NewsCardInterface> = ({ news }) => {
-  const dispatch = useAppDispatch();
-  const { Photo } = useAppSelector((state: RootState) => state.photos);
-
-  const imageID = news.story.imageId;
-  // console.log(`photos :${imageID}`);
-
-  // console.log("photos");
-
-  useEffect(() => {
-    dispatch(getPhotos(imageID));
-  }, [imageID]);
-
   return (
     <>
       <div className="p-4 border border-[#d7d7d7] drop-shadow-md [&:not(:last-child)]:mb-[20px] bg-[#fff] ">
@@ -44,20 +33,13 @@ const NewsCard: FC<NewsCardInterface> = ({ news }) => {
           <span className="text-[15px] font-[600]">{news.story.context}</span>
         </div>
         <div className="flex flex-col lg:flex-row gap-[20px] items-start">
-          <div className="max-w-[220px] w-full mx-auto">
-            {Photo ? (
-              <img
-                src={Photo}
-                alt={news.story.hline}
-                className="object-cover w-full"
-              />
-            ) : (
-              <div className="flex items-center justify-center">
-                <DotPulse />
-              </div>
-            )}
+          <div className="max-w-[360px] w-full ">
+            <NewsImage
+              imageID={news.story.imageId}
+              headline={news.story.hline}
+            />
           </div>
-          <div className="px-[10px] max-w-[718px] w-full">
+          <div className="px-[10px] max-w-full w-full">
             <h3 className="text-[36px] font-semibold mb-[10px] leading-[38px]">
               <Link to={`/newsdetail/${news.story.id}`}>
                 {news.story.hline}

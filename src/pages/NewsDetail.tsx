@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import kane from "../assets/images/kane.webp";
 import { getPhotos } from "@/store/actions/photos/photosActions";
 import { photoCleanUp } from "@/store/features/photos/photosSlice";
+import { v4 as uuidv4 } from "uuid";
 
 interface NewsDetailInterface {}
 
@@ -28,7 +29,6 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
   }, [news.coverImage?.id]);
 
   const author = news.authors?.map((author: any) => author.name);
-  console.log(news);
 
   return (
     <div>
@@ -68,7 +68,10 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
             <div className="py-[30px]">
               {news.content?.map((text) =>
                 text.content != undefined ? (
-                  <p className="first:first-letter:text-[52px] text-[22px] [&:not(:last-child)]:mb-[20px] font-[500] leading-normal">
+                  <p
+                    className="first:first-letter:text-[52px] text-[22px] [&:not(:last-child)]:mb-[20px] font-[500] leading-normal"
+                    key={uuidv4()}
+                  >
                     {text.content?.contentValue}
                   </p>
                 ) : (

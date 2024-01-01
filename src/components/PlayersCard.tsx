@@ -9,8 +9,6 @@ const PlayersCard = ({ player }) => {
   const { Photo } = useAppSelector((state: RootState) => state.photos);
   const imageID = player.faceImageId;
 
-  console.log(player);
-
   useEffect(() => {
     dispatch(getPhotos(imageID));
   }, [imageID]);

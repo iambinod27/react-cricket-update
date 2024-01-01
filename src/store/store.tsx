@@ -3,6 +3,7 @@ import matchesReducer from "./features/matches/matchesSlice";
 import newsReducer from "./features/news/newsSlice";
 import photosReducer from "./features/photos/photosSlice";
 import playersReducer from "./features/players/playerSlice";
+import rankingReducer from "./features/ranking/rankingSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     news: newsReducer,
     photos: photosReducer,
     players: playersReducer,
+    ranking: rankingReducer,
   },
 });
 

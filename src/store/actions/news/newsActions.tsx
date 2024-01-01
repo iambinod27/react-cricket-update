@@ -13,7 +13,7 @@ export const getNews = createAsyncThunk("news/list", async () => {
 
 export const getNewsDetail = createAsyncThunk(
   "/news/list/detail",
-  async (payload: number) => {
+  async (payload: string | undefined) => {
     try {
       const res = await sportsAxios.get(`news/v1/detail/${payload}`);
       const data = res.data;

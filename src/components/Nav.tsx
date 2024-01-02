@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const Nav = () => {
   const NavList = [
-    { title: "Matches", link: "/matches" },
+    { title: "Scores", link: "/matches" },
+    { title: "Upcoming", link: "/upcoming" },
     { title: "News", link: "/news" },
     { title: "Players", link: "/players" },
     { title: "Ranking", link: "/ranking" },
@@ -15,7 +16,9 @@ const Nav = () => {
       <div className="navbar navbar-sticky navbar-glass py-0 bg-[#fff]">
         <div className="navbar-start">
           <Link to="/" className="font-[600] text-[20px]">
-            <p className="navbar-item">Cric<span className="text-[#c24a38]">Up</span></p>
+            <p className="navbar-item">
+              Cric<span className="text-[#c24a38]">Up</span>
+            </p>
           </Link>
         </div>
         <div className="navbar-end text-[16px] uppercase font-[500]">

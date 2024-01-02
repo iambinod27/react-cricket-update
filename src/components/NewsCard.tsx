@@ -1,8 +1,4 @@
-import { FC, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import { RootState } from "@/store/store";
-import { getPhotos } from "@/store/actions/photos/photosActions";
-import DotPulse from "./Loading/DotPulse";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import NewsImage from "./NewsImage";
 import unixTimeConvert from "@/utils/dateConveter";

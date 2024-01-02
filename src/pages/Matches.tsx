@@ -32,7 +32,7 @@ const Matches: FC<MatchesProps> = () => {
         </>
       ) : (
         <>
-          <h3 className="text-[30px] font-semibold">Games</h3>
+          <h3 className="text-[30px] font-semibold">Recent Games</h3>
           <div className="tabs justify-center w-full">
             {matchesList.map((matches, index) => (
               <div

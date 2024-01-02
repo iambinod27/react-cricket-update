@@ -9,6 +9,7 @@ import kane from "../assets/images/kane.webp";
 import { getPhotos } from "@/store/actions/photos/photosActions";
 import { photoCleanUp } from "@/store/features/photos/photosSlice";
 import { v4 as uuidv4 } from "uuid";
+import unixTimeConvert from "@/utils/dateConveter";
 
 interface NewsDetailInterface {}
 
@@ -30,6 +31,12 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
 
   const author = news.authors?.map((author: any) => author.name);
 
+  console.log(news);
+
+  // console.log(news.publishTime);
+
+  const publishTime = unixTimeConvert(news.publishTime);
+
   return (
     <div>
       {!isLoading ? (
@@ -48,7 +55,7 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
               </p>
             </div>
             <p className="italic">
-              {news.context} , Published : 12 Dec 2023 by {author}
+              {news.context} , Published : {publishTime} by {author}
             </p>
             <p className="text-[20px] font-[400] leading-[32px]">
               {news.intro}

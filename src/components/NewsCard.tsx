@@ -5,6 +5,7 @@ import { getPhotos } from "@/store/actions/photos/photosActions";
 import DotPulse from "./Loading/DotPulse";
 import { Link } from "react-router-dom";
 import NewsImage from "./NewsImage";
+import unixTimeConvert from "@/utils/dateConveter";
 
 interface News {
   story: {
@@ -15,6 +16,7 @@ interface News {
     storyType: string;
     imageId: number;
     id: number;
+    pubTime: number;
   };
 }
 
@@ -25,7 +27,7 @@ interface NewsCardInterface {
 const NewsCard: FC<NewsCardInterface> = ({ news }) => {
   return (
     <>
-      <div className="p-4 border border-[#d7d7d7] drop-shadow-md [&:not(:last-child)]:mb-[20px] bg-[#fff] ">
+      <div className="p-4 border border-[#d7d7d7] drop-shadow-md [&:not(:last-child)]:mb-[30px] bg-[#fff] ">
         <div className="mb-[15px]">
           <span className="px-[10px] py-[5px] text-[#fff] bg-[#4685d8] rounded mr-[10px] text-[15px] font-[500]">
             {news.story.storyType}
@@ -40,7 +42,7 @@ const NewsCard: FC<NewsCardInterface> = ({ news }) => {
             />
           </div>
           <div className="px-[10px] max-w-full w-full">
-            <h3 className="text-[36px] font-semibold mb-[10px] leading-[38px]">
+            <h3 className="text-[42px] font-[700] mb-[10px] leading-[52px] line-clamp-3 ">
               <Link to={`/newsdetail/${news.story.id}`}>
                 {news.story.hline}
               </Link>
@@ -50,9 +52,20 @@ const NewsCard: FC<NewsCardInterface> = ({ news }) => {
             </p>
           </div>
         </div>
-        <p className="text-[14px] mt-[10px]">
-          Source : <span className="font-[600]">{news.story.source}</span>
-        </p>
+        <div className="flex items-baseline justify-between gap-[10px]">
+          <p className="text-[14px] mt-[10px]">
+            Source :{" "}
+            <span className="font-[600] leading-[0px]">
+              {news.story.source}
+            </span>
+          </p>
+          <p className="text-[14px]">
+            Published :{" "}
+            <span className="font-[500]">
+              {unixTimeConvert(news.story.pubTime)}
+            </span>
+          </p>
+        </div>
       </div>
     </>
   );

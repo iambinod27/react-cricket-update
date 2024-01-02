@@ -20,7 +20,7 @@ const Matches: FC<MatchesProps> = () => {
     dispatch(getMatches());
   }, [dispatch]);
 
-  // console.log(matchesList);
+  console.log(matchesList);
 
   return (
     <div className="container mx-auto">

@@ -1,3 +1,4 @@
+import unixTimeConvert from "@/utils/dateConveter";
 import { FC } from "react";
 
 interface ScorecardInterface {
@@ -17,6 +18,7 @@ interface ScorecardInterface {
         teamSName: string;
       };
       status: string;
+      startDate: number;
     };
     matchScore: {
       team1Score: {
@@ -52,9 +54,14 @@ const Scorecard: FC<ScorecardInterface> = ({ info }) => {
     <>
       <div className=" shadow-lg bg-white text-[#222] rounded-lg p-[10px] border-[1px] border-[#e6e6e6]">
         <div className="flex border-b-[#6e6e6e] items-baseline flex-col">
-          <p className="uppercase text-[15px] font-bold">
-            Result - {info.matchInfo.matchFormat}
-          </p>
+          <div className="flex justify-between w-full">
+            <p className="uppercase text-[15px] font-bold items-center">
+              Result - {info.matchInfo.matchFormat}
+            </p>
+            <p className="text-[14px] font-[400]">
+              {unixTimeConvert(info.matchInfo.startDate)}
+            </p>
+          </div>
           <div className="flex align-center flex-col">
             <p className="capitalize text-[14px] font-[500]">
               {info.matchInfo.matchDesc} , {info.matchInfo.seriesName}

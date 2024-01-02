@@ -7,13 +7,18 @@ module.exports = {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
+    container: {
+      padding: {
+        DEFAULT: "1rem",
+        sm: "2rem",
+        lg: "4rem",
+        xl: "5rem",
+        "2xl": "6rem",
+      },
+    },
     fontFamily: {
       OpenSans: ["Open Sans", "sans-serif"],
     },
-    // colors: {
-    //   primary: "#235264",
-    //   backgroundPrimary: "#964643",
-    // },
   },
   rippleui: {
     removeThemes: ["dark", "light", "whateverTheme"],

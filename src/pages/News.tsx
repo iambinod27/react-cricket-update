@@ -14,13 +14,13 @@ const News: FC<NewsInterface> = () => {
     (state: RootState) => state.news
   );
 
-  const newsStory = newsList.filter((news) => news.hasOwnProperty("story"));
-  // console.log(newsStory);
-
   // GET NEWS
   useEffect(() => {
     dispatch(getNews());
   }, [dispatch]);
+
+  const newsStory = newsList.filter((news) => news.hasOwnProperty("story"));
+  console.log(newsStory);
 
   return (
     <>
@@ -29,9 +29,11 @@ const News: FC<NewsInterface> = () => {
           Array.from({ length: 3 }, () => <LoadingNewsCard key={uuidv4()} />)
         ) : (
           <>
-            {newsStory.map((news: any) => (
-              <NewsCard news={news} key={news.story.id} />
-            ))}
+            <div className="py-[30px]">
+              {newsStory.map((news: any) => (
+                <NewsCard news={news} key={news.story.id} />
+              ))}
+            </div>
           </>
         )}
       </div>

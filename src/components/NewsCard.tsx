@@ -20,7 +20,7 @@ interface NewsCardInterface {
   news: News;
 }
 
-const NewsCard: FC<NewsCardInterface> = ({ news }) => {
+const NewsCard: FC<NewsCardInterface> = ({ news, image }) => {
   return (
     <>
       <div className="p-4 border border-[#d7d7d7] drop-shadow-md [&:not(:last-child)]:mb-[30px] bg-[#fff] ">
@@ -32,13 +32,10 @@ const NewsCard: FC<NewsCardInterface> = ({ news }) => {
         </div>
         <div className="flex flex-col lg:flex-row gap-[20px] items-start">
           <div className="max-w-[360px] w-full ">
-            <NewsImage
-              imageID={news.story.imageId}
-              headline={news.story.hline}
-            />
+            <NewsImage imageID={image} headline={news.story.hline} />
           </div>
           <div className="px-[10px] max-w-full w-full">
-            <h3 className="text-[42px] font-[700] mb-[10px] leading-[52px] line-clamp-3 ">
+            <h3 className="text-[36px] font-[700] mb-[10px] leading-[46px] line-clamp-3 ">
               <Link to={`/newsdetail/${news.story.id}`}>
                 {news.story.hline}
               </Link>

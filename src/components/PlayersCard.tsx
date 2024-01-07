@@ -14,7 +14,7 @@ const PlayersCard = ({ player }) => {
   }, [imageID]);
   return (
     <div className="border shadow-lg  rounded-[20px] overflow-hidden">
-      <div className="mb-[10px] min-h-[300px] flex items-center">
+      <div className="mb-[10px] min-h-[260px] flex items-center">
         {Photo ? (
           <img src={Photo} alt={player.name} className="object-cover  h-full" />
         ) : (

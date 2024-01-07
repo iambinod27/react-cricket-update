@@ -20,7 +20,9 @@ const News: FC<NewsInterface> = () => {
   }, [dispatch]);
 
   const newsStory = newsList.filter((news) => news.hasOwnProperty("story"));
-  console.log(newsStory);
+
+  const ImagesIds = newsStory.map((image) => image.story?.coverImage?.id);
+  console.log(ImagesIds);
 
   return (
     <>
@@ -30,8 +32,12 @@ const News: FC<NewsInterface> = () => {
         ) : (
           <>
             <div className="py-[30px]">
-              {newsStory.map((news: any) => (
-                <NewsCard news={news} key={news.story.id} />
+              {newsStory.map((news: any, index) => (
+                <NewsCard
+                  news={news}
+                  key={news.story.id}
+                  image={ImagesIds[index]}
+                />
               ))}
             </div>
           </>

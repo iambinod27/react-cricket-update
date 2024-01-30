@@ -81,9 +81,9 @@ const Scorecard: FC<ScorecardInterface> = ({ info }) => {
               info.matchInfo.matchFormat != "TEST" ? (
                 <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
                   <span className="text-[13px] font-[400] text-[#3f3f3f]">
-                    ({info.matchScore?.team1Score?.inngs1.overs} ov)
+                    ({info.matchScore?.team1Score?.inngs1?.overs} ov)
                   </span>
-                  {info.matchScore?.team1Score?.inngs1.runs}/
+                  {info.matchScore?.team1Score?.inngs1?.runs}/
                   {info.matchScore?.team1Score?.inngs1?.wickets}
                 </p>
               ) : (
@@ -121,7 +121,7 @@ const Scorecard: FC<ScorecardInterface> = ({ info }) => {
                   <span className="text-[13px] font-[400] text-[#3f3f3f]">
                     ({info.matchScore?.team2Score?.inngs1.overs} ov)
                   </span>
-                  {info.matchScore?.team2Score?.inngs1.runs}/
+                  {info.matchScore?.team2Score?.inngs1?.runs}/
                   {info.matchScore?.team2Score?.inngs1?.wickets}
                 </p>
               ) : (
@@ -129,7 +129,7 @@ const Scorecard: FC<ScorecardInterface> = ({ info }) => {
                   <div className="flex gap-[5px]">
                     {info.matchScore.team2Score != undefined ? (
                       <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-                        {info.matchScore?.team2Score?.inngs1.runs}/
+                        {info.matchScore?.team2Score?.inngs1?.runs}/
                         {info.matchScore?.team2Score?.inngs1?.wickets}
                       </p>
                     ) : (

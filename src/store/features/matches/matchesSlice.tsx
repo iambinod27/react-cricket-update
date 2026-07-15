@@ -1,29 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getMatches } from "../../actions/matches/matchesActions";
 
-interface IssueInitialState {
-  isLoading: boolean;
-  matchesList: Array<{
-    matchType: string;
-    seriesMatches: Array<{
+interface SeriesMatch {
+  matchType: string;
+  seriesMatches: Array<{
+    seriesAdWrapper?: {
       seriesId: number;
       seriesName: string;
-      seriesAdWrapper: {
-        seriesId: number;
-        seriesName: string;
-        matches: Array<{
-          matchInfo: {
-            matchId: number;
-          };
-        }>;
-      };
-    }>;
+      matches: Array<{ matchInfo: { matchId: number } }>;
+    };
   }>;
 }
 
-const initialState: IssueInitialState = {
+interface MatchesState {
+  isLoading: boolean;
+  live: SeriesMatch[];
+  recent: SeriesMatch[];
+  upcoming: SeriesMatch[];
+}
+
+const initialState: MatchesState = {
   isLoading: true,
-  matchesList: [],
+  live: [],
+  recent: [],
+  upcoming: [],
 };
 
 const matchesSlice = createSlice({
@@ -37,10 +37,10 @@ const matchesSlice = createSlice({
       })
       .addCase(getMatches.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.matchesList = action.payload.typeMatches;
+        state[action.payload.status] = action.payload.data.typeMatches;
       })
       .addCase(getMatches.rejected, (state) => {
-        state.isLoading = true;
+        state.isLoading = false; // ✅ fixed
       });
   },
 });

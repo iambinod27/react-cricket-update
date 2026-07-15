@@ -5,7 +5,6 @@ interface NewsInitialState {
   isLoading: boolean;
   newsList: Array<{
     story: {
-      coverImage: any;
       id: number;
     };
   }>;
@@ -23,6 +22,7 @@ interface NewsInitialState {
     source: string;
     context: string;
     intro: string;
+    publishTime: number; // ✅ add this
     content: Array<{
       content: {
         contentValue: string;
@@ -38,7 +38,7 @@ const initialState: NewsInitialState = {
     coverImage: {
       id: 0,
       caption: "",
-      source: ""
+      source: "",
     },
     headline: "",
     authors: [],
@@ -46,7 +46,8 @@ const initialState: NewsInitialState = {
     source: "",
     context: "",
     intro: "",
-    content: []
+    content: [],
+    publishTime: 0, // ✅ add this
   },
 };
 
@@ -69,7 +70,7 @@ const newsSlice = createSlice({
       state.nextIndex = action.payload.appIndex?.webAppIndex ?? null; // save cursor
     });
     builder.addCase(getNews.rejected, (state) => {
-      state.isLoading = true;
+      state.isLoading = false;
     });
     builder.addCase(getNewsDetail.pending, (state) => {
       state.isLoading = true;
@@ -79,7 +80,7 @@ const newsSlice = createSlice({
       state.news = action.payload;
     });
     builder.addCase(getNewsDetail.rejected, (state) => {
-      state.isLoading = true;
+      state.isLoading = false;
     });
   },
 });

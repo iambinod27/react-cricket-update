@@ -1,9 +1,9 @@
+// photosSlice.tsx
 import { getPhotos } from "@/store/actions/photos/photosActions";
 import { createSlice } from "@reduxjs/toolkit";
 
-// photosSlice.tsx
 interface PhotoInitialState {
-  photos: Record<number, string>; // { [imageId]: url }
+  photos: Record<number, string>;
   loadingIds: number[];
 }
 
@@ -15,28 +15,19 @@ const initialState: PhotoInitialState = {
 const photoSlice = createSlice({
   name: "photos",
   initialState,
-  reducers: {
-    photoCleanUp: (state) => {
-      state.photos = {};
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getPhotos.pending, (state, action) => {
-      state.loadingIds.push(action.meta.arg); // arg = the imageID passed in
+      state.loadingIds.push(action.meta.arg);
     });
     builder.addCase(getPhotos.fulfilled, (state, action) => {
       state.photos[action.meta.arg] = action.payload;
-      state.loadingIds = state.loadingIds.filter(
-        (id) => id !== action.meta.arg,
-      );
+      state.loadingIds = state.loadingIds.filter((id) => id !== action.meta.arg);
     });
     builder.addCase(getPhotos.rejected, (state, action) => {
-      state.loadingIds = state.loadingIds.filter(
-        (id) => id !== action.meta.arg,
-      );
+      state.loadingIds = state.loadingIds.filter((id) => id !== action.meta.arg);
     });
   },
 });
 
-export const { photoCleanUp } = photoSlice.actions;
 export default photoSlice.reducer;

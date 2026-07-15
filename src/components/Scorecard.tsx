@@ -1,5 +1,17 @@
 import unixTimeConvert from "@/utils/dateConveter";
 import { FC } from "react";
+import { MapPin, Calendar } from "lucide-react";
+
+interface Innings {
+  overs: number;
+  runs: number;
+  wickets: number;
+}
+
+interface TeamScore {
+  inngs1?: Innings;
+  inngs2?: Innings;
+}
 
 interface ScorecardInterface {
   info: {
@@ -7,158 +19,138 @@ interface ScorecardInterface {
       matchDesc: string;
       matchFormat: string;
       seriesName: string;
-      venueInfo: {
-        ground: string;
-        city: string;
-      };
-      team1: {
-        teamSName: string;
-      };
-      team2: {
-        teamSName: string;
-      };
+      venueInfo: { ground: string; city: string };
+      team1: { teamSName: string };
+      team2: { teamSName: string };
       status: string;
       startDate: number;
     };
-    matchScore: {
-      team1Score: {
-        inngs1: {
-          overs: number;
-          runs: number;
-          wickets: number;
-        };
-        inngs2: {
-          overs: number;
-          runs: number;
-          wickets: number;
-        };
-      };
-      team2Score: {
-        inngs1: {
-          overs: number;
-          runs: number;
-          wickets: number;
-        };
-        inngs2: {
-          overs: number;
-          runs: number;
-          wickets: number;
-        };
-      };
+    matchScore?: {
+      team1Score?: TeamScore;
+      team2Score?: TeamScore;
     };
   };
 }
 
-const Scorecard: FC<ScorecardInterface> = ({ info }) => {
+// renders one team's score line, works for limited-overs and test alike
+const TeamScoreLine = ({
+  name,
+  score,
+  isTest,
+}: {
+  name: string;
+  score?: TeamScore;
+  isTest: boolean;
+}) => {
+  if (!score) {
+    return (
+      <div className="flex justify-between items-center">
+        <p className="text-[18px] font-[700]">{name}</p>
+        <p className="font-[400] text-[16px] text-[#999]">Yet to bat</p>
+      </div>
+    );
+  }
+  const wicketsDisplay = (innings: Innings) =>
+    innings.wickets !== undefined ? innings.wickets : "10"; // missing = all out
+  
   return (
-    <>
-      <div className=" shadow-lg bg-white text-[#222] rounded-lg p-[10px] border-[1px] border-[#e6e6e6]">
-        <div className="flex border-b-[#6e6e6e] items-baseline flex-col">
-          <div className="flex justify-between w-full">
-            <p className="uppercase text-[15px] font-bold items-center">
-              Result - {info.matchInfo.matchFormat}
-            </p>
-            <p className="text-[14px] font-[400]">
-              {unixTimeConvert(info.matchInfo.startDate)}
-            </p>
-          </div>
-          <div className="flex align-center flex-col">
-            <p className="capitalize text-[14px] font-[500]">
-              {info.matchInfo.matchDesc} , {info.matchInfo.seriesName}
-            </p>
-            <p className="capitalize text-[12px] font-[400] leading-[21px]">
-              {info.matchInfo.venueInfo.ground}, {info.matchInfo.venueInfo.city}
-            </p>
-          </div>
-        </div>
-        <div className="py-[5px]">
-          <div className="flex justify-between">
-            <p className="text-[18px] font-[700]">
-              {info.matchInfo.team1.teamSName}
-            </p>
+    <div className="flex justify-between items-center">
+      <p className="text-[18px] font-[700]">{name}</p>
+      <div className="flex items-baseline gap-[8px]">
+        {isTest ? (
+          <>
+            {score.inngs1 && (
+              <span className="text-[18px] font-[700]">
+                {score.inngs1.runs}/{wicketsDisplay(score.inngs1)}
+              </span>
+            )}
+            {score.inngs2 && (
+              <>
+                <span className="text-[13px] text-[#999]">&amp;</span>
+                <span className="text-[18px] font-[700]">
+                  {score.inngs2.runs}/{wicketsDisplay(score.inngs2)}
+                </span>
+              </>
+            )}
+          </>
+        ) : (
+          score.inngs1 && (
+            <span className="text-[18px] font-[700] flex items-baseline gap-[5px]">
+              <span className="text-[13px] font-[400] text-[#3f3f3f]">
+                ({score.inngs1.overs} ov)
+              </span>
+              {score.inngs1.runs}/{score.inngs1.wickets}
+            </span>
+          )
+        )}
+      </div>
+    </div>
+  );
+};
 
-            {info.matchScore != undefined ? (
-              info.matchInfo.matchFormat != "TEST" ? (
-                <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-                  <span className="text-[13px] font-[400] text-[#3f3f3f]">
-                    ({info.matchScore?.team1Score?.inngs1?.overs} ov)
-                  </span>
-                  {info.matchScore?.team1Score?.inngs1?.runs}/
-                  {info.matchScore?.team1Score?.inngs1?.wickets}
-                </p>
-              ) : (
-                <>
-                  <div className="flex gap-[5px]">
-                    <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-                      {info.matchScore?.team1Score?.inngs1?.runs}/
-                      {info.matchScore?.team1Score?.inngs1?.wickets}
-                    </p>
-                    {info.matchScore.team1Score.inngs2 != undefined ? (
-                      <>
-                        &
-                        <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-                          {info.matchScore?.team1Score?.inngs2?.runs}/
-                          {info.matchScore?.team1Score?.inngs2?.wickets}
-                        </p>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </>
-              )
-            ) : (
-              <p className="font-[400] text-[18px]">N/A</p>
-            )}
-          </div>
-          <div className="flex justify-between">
-            <p className="text-[18px] font-[700]">
-              {info.matchInfo.team2.teamSName}
-            </p>
-            {info.matchScore != undefined ? (
-              info.matchInfo.matchFormat != "TEST" ? (
-                <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-                  <span className="text-[13px] font-[400] text-[#3f3f3f]">
-                    ({info.matchScore?.team2Score?.inngs1.overs} ov)
-                  </span>
-                  {info.matchScore?.team2Score?.inngs1?.runs}/
-                  {info.matchScore?.team2Score?.inngs1?.wickets}
-                </p>
-              ) : (
-                <>
-                  <div className="flex gap-[5px]">
-                    {info.matchScore.team2Score != undefined ? (
-                      <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-                        {info.matchScore?.team2Score?.inngs1?.runs}/
-                        {info.matchScore?.team2Score?.inngs1?.wickets}
-                      </p>
-                    ) : (
-                      <p className="font-[400] text-[18px]">N/A</p>
-                    )}
-                    {info.matchScore.team2Score.inngs2 != undefined ? (
-                      <>
-                        &
-                        <p className="text-[18px] font-[700] flex items-baseline gap-[5px]">
-                          {info.matchScore?.team2Score?.inngs2?.runs}/
-                          {info.matchScore?.team2Score?.inngs2?.wickets}
-                        </p>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </>
-              )
-            ) : (
-              <p className="font-[400] text-[18px]">N/A</p>
-            )}
-          </div>
+const statusColor = (status: string) => {
+  const s = status.toLowerCase();
+  if (s.includes("live") || s.includes("need")) return "bg-red-500";
+  if (s.includes("won") || s.includes("draw")) return "bg-[#4685d8]";
+  return "bg-[#999]"; // scheduled / other
+};
+
+const Scorecard: FC<ScorecardInterface> = ({ info }) => {
+  const isTest = info.matchInfo.matchFormat === "TEST";
+  const isLive = info.matchInfo.status.toLowerCase().includes("live");
+
+  return (
+    <div className="shadow-lg bg-white text-[#222] rounded-[12px] p-[16px] border border-[#e6e6e6] hover:shadow-xl transition-shadow duration-300">
+      <div className="flex justify-between items-start mb-[10px]">
+        <div>
+          <p className="uppercase text-[13px] font-[700] text-[#4685d8] tracking-wide">
+            {info.matchInfo.matchFormat}
+          </p>
+          <p className="capitalize text-[14px] font-[500] mt-[2px]">
+            {info.matchInfo.matchDesc}, {info.matchInfo.seriesName}
+          </p>
         </div>
-        <p className="text-[13px] font-[400] capitalize">
+        {isLive && (
+          <span className="flex items-center gap-[5px] text-[12px] font-[700] text-red-500">
+            <span className="w-[7px] h-[7px] rounded-full bg-red-500 animate-pulse" />
+            LIVE
+          </span>
+        )}
+      </div>
+
+      <div className="flex items-center gap-[10px] text-[12px] text-[#888] mb-[14px]">
+        <span className="flex items-center gap-[4px]">
+          <MapPin size={12} />
+          {info.matchInfo.venueInfo.ground}, {info.matchInfo.venueInfo.city}
+        </span>
+        <span className="flex items-center gap-[4px]">
+          <Calendar size={12} />
+          {unixTimeConvert(info.matchInfo.startDate)}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-[8px] py-[8px] border-y border-[#f0f0f0]">
+        <TeamScoreLine
+          name={info.matchInfo.team1.teamSName}
+          score={info.matchScore?.team1Score}
+          isTest={isTest}
+        />
+        <TeamScoreLine
+          name={info.matchInfo.team2.teamSName}
+          score={info.matchScore?.team2Score}
+          isTest={isTest}
+        />
+      </div>
+
+      <div className="flex items-center gap-[8px] mt-[10px]">
+        <span
+          className={`w-[6px] h-[6px] rounded-full ${statusColor(info.matchInfo.status)}`}
+        />
+        <p className="text-[13px] font-[500] capitalize text-[#444]">
           {info.matchInfo.status}
         </p>
       </div>
-    </>
+    </div>
   );
 };
 export default Scorecard;

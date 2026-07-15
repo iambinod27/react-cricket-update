@@ -1,17 +1,21 @@
+// rankingActions.tsx
 import sportsAxios from "@/axios/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+export type RankFormat = "test" | "odi" | "t20";
+export type RankCategory = "batsmen" | "bowlers";
+
+interface RankingParams {
+  category: RankCategory;
+  formatType: RankFormat;
+}
+
 export const getIccPlayerRaking = createAsyncThunk(
   "ranking/playerRanking",
-  async () => {
-    try {
-      const res = await sportsAxios.get("stats/v1/rankings/batsmen", {
-        params: { formatType: "test" },
-      });
-      const data = await res.data;
-      return data;
-    } catch (error) {
-      throw error;
-    }
+  async ({ category, formatType }: RankingParams) => {
+    const res = await sportsAxios.get(`stats/v1/rankings/${category}`, {
+      params: { formatType },
+    });
+    return { category, data: res.data };
   }
 );

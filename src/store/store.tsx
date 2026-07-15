@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import matchesReducer from "./features/matches/matchesSlice";
 import newsReducer from "./features/news/newsSlice";
 import photosReducer from "./features/photos/photosSlice";
-import playersReducer from "./features/players/playerSlice";
 import rankingReducer from "./features/ranking/rankingSlice";
 
 const store = configureStore({
@@ -10,7 +9,6 @@ const store = configureStore({
     matches: matchesReducer,
     news: newsReducer,
     photos: photosReducer,
-    players: playersReducer,
     ranking: rankingReducer,
   },
 });

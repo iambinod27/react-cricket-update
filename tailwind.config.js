@@ -18,6 +18,7 @@ module.exports = {
     },
     fontFamily: {
       OpenSans: ["Open Sans", "sans-serif"],
+      poppins: ["Poppins", "sans-serif"],
     },
   },
   rippleui: {

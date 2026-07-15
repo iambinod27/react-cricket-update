@@ -11,10 +11,11 @@ interface NewsImageInterface {
 
 const NewsImage: FC<NewsImageInterface> = ({ imageID, headline }) => {
   const dispatch = useAppDispatch();
-  const { Photo } = useAppSelector((state: RootState) => state.photos);
+  const { photos } = useAppSelector((state: RootState) => state.photos);
+  const Photo = photos[imageID];
 
   useEffect(() => {
-    dispatch(getPhotos(imageID));
+    if (!Photo) dispatch(getPhotos(imageID));
   }, [imageID]);
 
   return (

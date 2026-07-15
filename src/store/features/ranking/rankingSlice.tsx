@@ -15,11 +15,11 @@ const rankingSlice = createSlice({
       state.RankLoading = true;
     });
     builder.addCase(getIccPlayerRaking.fulfilled, (state, action) => {
-      state.RankLoading = true;
+      state.RankLoading = false;
       state.batsmen = action.payload;
     });
     builder.addCase(getIccPlayerRaking.rejected, (state) => {
-      state.RankLoading = true;
+      state.RankLoading = false;
     });
   },
 });

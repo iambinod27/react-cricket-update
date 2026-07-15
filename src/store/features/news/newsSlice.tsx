@@ -5,6 +5,7 @@ interface NewsInitialState {
   isLoading: boolean;
   newsList: Array<{
     story: {
+      coverImage: any;
       id: number;
     };
   }>;
@@ -33,7 +34,20 @@ interface NewsInitialState {
 const initialState: NewsInitialState = {
   isLoading: true,
   newsList: [],
-  news: {},
+  news: {
+    coverImage: {
+      id: 0,
+      caption: "",
+      source: ""
+    },
+    headline: "",
+    authors: [],
+    storyType: "",
+    source: "",
+    context: "",
+    intro: "",
+    content: []
+  },
 };
 
 const newsSlice = createSlice({
@@ -41,7 +55,7 @@ const newsSlice = createSlice({
   initialState,
   reducers: {
     newsCleanUp: (state) => {
-      state.news = {};
+      state.news = initialState.news;
     },
   },
   extraReducers: (builder) => {
@@ -50,7 +64,9 @@ const newsSlice = createSlice({
     });
     builder.addCase(getNews.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.newsList = action.payload.storyList;
+      const newStories = action.payload.storyList ?? [];
+      state.newsList = [...state.newsList, ...newStories]; // append, not replace
+      state.nextIndex = action.payload.appIndex?.webAppIndex ?? null; // save cursor
     });
     builder.addCase(getNews.rejected, (state) => {
       state.isLoading = true;

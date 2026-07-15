@@ -3,45 +3,58 @@ import LoadingNewsCard from "@/components/Loading/NewsCard";
 import { RootState } from "@/store/store";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getNews } from "@/store/actions/news/newsActions";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface NewsInterface {}
 
 const News: FC<NewsInterface> = () => {
   const dispatch = useAppDispatch();
-  const { newsList, isLoading } = useAppSelector(
-    (state: RootState) => state.news
+  const { newsList, isLoading, nextIndex } = useAppSelector(
+    (state: RootState) => state.news,
   );
+  const observerRef = useRef<HTMLDivElement>(null);
 
   // GET NEWS
   useEffect(() => {
-    dispatch(getNews());
+    dispatch(getNews(undefined));
   }, [dispatch]);
 
-  const newsStory = newsList.filter((news) => news.hasOwnProperty("story"));
+  useEffect(() => {
+    const el = observerRef.current;
+    if (!el) return;
 
-  const ImagesIds = newsStory.map((image) => image.story?.coverImage?.id);
-  console.log(ImagesIds);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && nextIndex && !isLoading) {
+          dispatch(getNews(nextIndex));
+        }
+      },
+      { threshold: 1 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [nextIndex, isLoading]);
+
+  const newsStory = newsList.filter((news): news is NewsStoryItem =>
+    news.hasOwnProperty("story"),
+  );
 
   return (
     <>
       <div className="container mx-auto">
-        {isLoading ? (
-          Array.from({ length: 3 }, () => <LoadingNewsCard key={uuidv4()} />)
-        ) : (
-          <>
-            <div className="py-[30px]">
-              {newsStory.map((news: any, index) => (
-                <NewsCard
-                  news={news}
-                  key={news.story.id}
-                  image={ImagesIds[index]}
-                />
-              ))}
-            </div>
-          </>
-        )}
+        <div className="py-[30px]">
+          {newsStory.map((news) => (
+            <NewsCard
+              news={news}
+              key={news.story.id}
+              image={news.story.coverImage?.id}
+            />
+          ))}
+        </div>
+        {isLoading && <LoadingNewsCard />}
+        <div ref={observerRef} style={{ height: "1px" }} />
       </div>
     </>
   );

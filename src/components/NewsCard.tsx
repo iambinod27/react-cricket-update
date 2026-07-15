@@ -3,21 +3,29 @@ import { Link } from "react-router-dom";
 import NewsImage from "./NewsImage";
 import unixTimeConvert from "@/utils/dateConveter";
 
+interface CoverImage {
+  id: number;
+  caption?: string;
+}
+
+interface Story {
+  hline: string;
+  intro: string;
+  source: string;
+  context: string;
+  storyType: string;
+  coverImage?: CoverImage;
+  id: number;
+  pubTime: number;
+}
+
 interface News {
-  story: {
-    hline: string;
-    intro: string;
-    source: string;
-    context: string;
-    storyType: string;
-    imageId: number;
-    id: number;
-    pubTime: number;
-  };
+  story: Story;
 }
 
 interface NewsCardInterface {
   news: News;
+  image: number; // the imageID passed down for fetching the photo
 }
 
 const NewsCard: FC<NewsCardInterface> = ({ news, image }) => {

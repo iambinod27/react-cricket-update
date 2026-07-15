@@ -6,17 +6,19 @@ import { useEffect } from "react";
 
 const PlayersCard = ({ player }) => {
   const dispatch = useAppDispatch();
-  const { Photo } = useAppSelector((state: RootState) => state.photos);
+  const { photos } = useAppSelector((state: RootState) => state.photos);
   const imageID = player.faceImageId;
+  const Photo = photos[imageID];
 
   useEffect(() => {
-    dispatch(getPhotos(imageID));
+    if (!Photo) dispatch(getPhotos(imageID));
   }, [imageID]);
+
   return (
-    <div className="border shadow-lg  rounded-[20px] overflow-hidden">
+    <div className="border shadow-lg rounded-[20px] overflow-hidden">
       <div className="mb-[10px] min-h-[260px] flex items-center">
         {Photo ? (
-          <img src={Photo} alt={player.name} className="object-cover  h-full" />
+          <img src={Photo} alt={player.name} className="object-cover h-full" />
         ) : (
           <img src={patCummins} alt={player.name} />
         )}

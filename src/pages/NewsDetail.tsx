@@ -7,9 +7,9 @@ import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import kane from "../assets/images/kane.webp";
 import { getPhotos } from "@/store/actions/photos/photosActions";
-import { photoCleanUp } from "@/store/features/photos/photosSlice";
 import { v4 as uuidv4 } from "uuid";
 import unixTimeConvert from "@/utils/dateConveter";
+import { photoCleanUp } from "@/store/features/photos/photosSlice";
 
 interface NewsDetailInterface {}
 
@@ -17,23 +17,21 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const { news, isLoading } = useAppSelector((state: RootState) => state.news);
-  const { Photo } = useAppSelector((state: RootState) => state.photos);
+  const { photos } = useAppSelector((state: RootState) => state.photos);
+  const Photo = photos[news.coverImage?.id];
 
   useEffect(() => {
     dispatch(getNewsDetail(params?.id));
-    dispatch(photoCleanUp());
     dispatch(newsCleanUp());
   }, [params.id]);
 
   useEffect(() => {
-    dispatch(getPhotos(news.coverImage?.id));
+    if (news.coverImage?.id && !Photo) {
+      dispatch(getPhotos(news.coverImage.id));
+    }
   }, [news.coverImage?.id]);
 
   const author = news.authors?.map((author: any) => author.name);
-
-  console.log(news);
-
-  // console.log(news.publishTime);
 
   const publishTime = unixTimeConvert(news.publishTime);
 
@@ -46,7 +44,7 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
               {news.headline}
             </h2>
             <div className="flex items-baseline gap-[10px] my-[15px]">
-              <p className="bg-[#398ac4] text-[#fff] inline p-[5px] rounded">
+              <p className="bg-[#398ac4] text-[#fff] inline px-[10px] py-[5px] rounded">
                 {news.storyType}
               </p>
               <p className="capitalize">
@@ -57,14 +55,14 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
             <p className="italic">
               {news.context} , Published : {publishTime} by {author}
             </p>
-            <p className="text-[20px] font-[400] leading-[32px]">
+            <p className="text-[18px] font-[400] leading-[32px]">
               {news.intro}
             </p>
             <div className="max-w-full relative mt-[15px]">
               {Photo ? (
                 <>
                   <img src={Photo} alt={news.coverImage?.caption} />
-                  <p className="absolute bottom-0  w-full bg-[#000000a9] px-[10px] py-[20px] text-[#fcfcfc] text-[16px]">
+                  <p className="absolute bottom-0  w-full bg-[#000000a9] px-[10px] py-[20px] text-[#fcfcfc] text-[14px]">
                     {news.coverImage?.caption} • {news.coverImage?.source}
                   </p>
                 </>
@@ -76,14 +74,14 @@ const NewsDetail: FC<NewsDetailInterface> = () => {
               {news.content?.map((text) =>
                 text.content != undefined ? (
                   <p
-                    className="first:first-letter:text-[52px] text-[22px] [&:not(:last-child)]:mb-[20px] font-[500] leading-normal"
+                    className="first:first-letter:text-[36px] text-[16px] [&:not(:last-child)]:mb-[20px] font-[400] leading-normal"
                     key={uuidv4()}
                   >
                     {text.content?.contentValue}
                   </p>
                 ) : (
                   ""
-                )
+                ),
               )}
             </div>
           </div>

@@ -1,54 +1,33 @@
 import { getNews, getNewsDetail } from "@/store/actions/news/newsActions";
 import { createSlice } from "@reduxjs/toolkit";
+import { NewsStoryItem } from "@/types/news";
 
 interface NewsInitialState {
   isLoading: boolean;
-  newsList: Array<{
-    story: {
-      id: number;
-    };
-  }>;
+  newsList: NewsStoryItem[];
+  nextIndex: string | null;
   news: {
-    coverImage: {
+    coverImage?: {
       id: number;
       caption: string;
       source: string;
     };
-    headline: string;
-    authors: Array<{
-      name: string;
-    }>;
-    storyType: string;
-    source: string;
-    context: string;
-    intro: string;
-    publishTime: number; // ✅ add this
-    content: Array<{
-      content: {
-        contentValue: string;
-      };
-    }>;
+    headline?: string;
+    authors?: Array<{ name: string }>;
+    storyType?: string;
+    source?: string;
+    context?: string;
+    intro?: string;
+    publishTime?: number;
+    content?: Array<{ content: { contentValue: string } }>;
   };
 }
 
 const initialState: NewsInitialState = {
   isLoading: true,
   newsList: [],
-  news: {
-    coverImage: {
-      id: 0,
-      caption: "",
-      source: "",
-    },
-    headline: "",
-    authors: [],
-    storyType: "",
-    source: "",
-    context: "",
-    intro: "",
-    content: [],
-    publishTime: 0, // ✅ add this
-  },
+  nextIndex: null,
+  news: {},
 };
 
 const newsSlice = createSlice({
@@ -56,7 +35,7 @@ const newsSlice = createSlice({
   initialState,
   reducers: {
     newsCleanUp: (state) => {
-      state.news = initialState.news;
+      state.news = {};
     },
   },
   extraReducers: (builder) => {
@@ -65,9 +44,8 @@ const newsSlice = createSlice({
     });
     builder.addCase(getNews.fulfilled, (state, action) => {
       state.isLoading = false;
-      const newStories = action.payload.storyList ?? [];
-      state.newsList = [...state.newsList, ...newStories]; // append, not replace
-      state.nextIndex = action.payload.appIndex?.webAppIndex ?? null; // save cursor
+      state.newsList = [...state.newsList, ...(action.payload.storyList ?? [])];
+      state.nextIndex = action.payload.appIndex?.webAppIndex ?? null;
     });
     builder.addCase(getNews.rejected, (state) => {
       state.isLoading = false;
@@ -86,5 +64,4 @@ const newsSlice = createSlice({
 });
 
 export const { newsCleanUp } = newsSlice.actions;
-
 export default newsSlice.reducer;

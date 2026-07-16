@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import News from "./pages/News";
 import Matches from "./pages/Matches";
 import NewsDetail from "./pages/NewsDetail";
-import Players from "./pages/Players";
 import Ranking from "./pages/Ranking";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -25,5 +24,4 @@ function App() {
     </>
   );
 }
-
 export default App;

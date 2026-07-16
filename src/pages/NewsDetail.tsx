@@ -16,7 +16,8 @@ const NewsDetail: FC = () => {
   const dispatch = useAppDispatch();
   const { news, isLoading } = useAppSelector((state: RootState) => state.news);
   const { photos } = useAppSelector((state: RootState) => state.photos);
-  const Photo = photos[news.coverImage?.id];
+  const coverImageId = news.coverImage?.id;
+  const Photo = coverImageId !== undefined ? photos[coverImageId] : undefined;
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -26,12 +27,11 @@ const NewsDetail: FC = () => {
   }, [params.id]);
 
   useEffect(() => {
-    if (news.coverImage?.id && !Photo) {
-      dispatch(getPhotos(news.coverImage.id));
+    if (coverImageId && !Photo) {
+      dispatch(getPhotos(coverImageId));
     }
-  }, [news.coverImage?.id]);
+  }, [coverImageId]);
 
-  // reading progress bar
   useEffect(() => {
     const onScroll = () => {
       const scrollTop = window.scrollY;
@@ -42,13 +42,15 @@ const NewsDetail: FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const authors = news.authors?.map((a: any) => a.name).join(", ");
-  const publishTime = unixTimeConvert(news.publishTime);
+  const authors = news.authors?.map((a) => a.name).join(", ");
+  const publishTime = news.publishTime ? unixTimeConvert(news.publishTime) : "";
 
   return (
     <div>
-      {/* reading progress bar */}
-      <div className="fixed top-0 left-0 h-[3px] bg-[#4685d8] z-50 transition-[width] duration-150" style={{ width: `${progress}%` }} />
+      <div
+        className="fixed top-0 left-0 h-[3px] bg-[#c24a38] z-50 transition-[width] duration-150"
+        style={{ width: `${progress}%` }}
+      />
 
       {!isLoading ? (
         <div className="container mx-auto max-w-[760px] px-4">
@@ -66,10 +68,16 @@ const NewsDetail: FC = () => {
                 <User size={14} /> {authors}
               </span>
             )}
-            <span className="flex items-center gap-[6px]">
-              <Calendar size={14} /> {publishTime}
-            </span>
-            <span className="text-[#999]">Source: <span className="font-[600] text-[#333]">{news.source}</span></span>
+            {publishTime && (
+              <span className="flex items-center gap-[6px]">
+                <Calendar size={14} /> {publishTime}
+              </span>
+            )}
+            {news.source && (
+              <span className="text-[#999]">
+                Source: <span className="font-[600] text-[#333]">{news.source}</span>
+              </span>
+            )}
           </div>
 
           <p className="text-[19px] font-[400] leading-relaxed mt-[10px] font-poppins text-[#333] first-letter:text-[42px] first-letter:font-[800] first-letter:mr-[6px] first-letter:float-left first-letter:leading-none">
@@ -85,7 +93,7 @@ const NewsDetail: FC = () => {
                 </p>
               </>
             ) : (
-              <img src={kane} alt={news.coverImage?.caption} className="w-full" />
+              <img src={kane} alt={news.coverImage?.caption ?? ""} className="w-full" />
             )}
           </div>
 

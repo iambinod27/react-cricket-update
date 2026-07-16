@@ -2,7 +2,8 @@ export default async function handler(req: any, res: any) {
   const { path, ...query } = req.query;
   if (!path) return res.status(400).json({ error: "Missing path" });
 
-  const url = new URL(`https://cricbuzz-cricket.p.rapidapi.com/${path}`);
+  const cleanPath = String(path).replace(/^\/+/, ""); // ✅ strip here too
+  const url = new URL(`https://cricbuzz-cricket.p.rapidapi.com/${cleanPath}`);
   Object.entries(query).forEach(([k, v]) => url.searchParams.set(k, String(v)));
 
   const keys = (process.env.RAPIDAPI_KEYS ?? "")
@@ -25,7 +26,8 @@ export default async function handler(req: any, res: any) {
     });
 
     if (upstream.status !== 429 && upstream.status !== 403) {
-      const contentType = upstream.headers.get("content-type") ?? "application/json";
+      const contentType =
+        upstream.headers.get("content-type") ?? "application/json";
       res.setHeader("Content-Type", contentType);
       const buffer = Buffer.from(await upstream.arrayBuffer());
       return res.status(upstream.status).send(buffer);
@@ -34,5 +36,7 @@ export default async function handler(req: any, res: any) {
     lastStatus = upstream.status;
   }
 
-  return res.status(lastStatus).json({ error: "All RapidAPI keys exhausted their quota" });
+  return res
+    .status(lastStatus)
+    .json({ error: "All RapidAPI keys exhausted their quota" });
 }

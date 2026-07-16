@@ -1,4 +1,3 @@
-// axios.tsx
 import axios from "axios";
 
 const sportsAxios = axios.create({
@@ -7,14 +6,18 @@ const sportsAxios = axios.create({
 
 sportsAxios.interceptors.request.use((config) => {
   const raw = (config.url ?? "").replace(/^\/+/, "");
-  const parsed = new URL(raw, "http://x"); // dummy base just to parse any embedded query string
+  const parsed = new URL(raw, "http://x");
 
   const extraParams: Record<string, string> = {};
   parsed.searchParams.forEach((v, k) => {
     extraParams[k] = v;
   });
 
-  config.params = { ...(config.params ?? {}), ...extraParams, path: parsed.pathname };
+  config.params = {
+    ...(config.params ?? {}),
+    ...extraParams,
+    path: parsed.pathname.replace(/^\/+/, ""),
+  };
   config.url = "";
   return config;
 });

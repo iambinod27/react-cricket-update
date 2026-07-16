@@ -1,9 +1,8 @@
-// api/cricbuzz/[...path].ts
 export default async function handler(req: any, res: any) {
   const { path, ...query } = req.query;
-  const segments = Array.isArray(path) ? path.join("/") : path;
+  if (!path) return res.status(400).json({ error: "Missing path" });
 
-  const url = new URL(`https://cricbuzz-cricket.p.rapidapi.com/${segments}`);
+  const url = new URL(`https://cricbuzz-cricket.p.rapidapi.com/${path}`);
   Object.entries(query).forEach(([k, v]) => url.searchParams.set(k, String(v)));
 
   const keys = (process.env.RAPIDAPI_KEYS ?? "")
@@ -32,7 +31,7 @@ export default async function handler(req: any, res: any) {
       return res.status(upstream.status).send(buffer);
     }
 
-    lastStatus = upstream.status; // this key is rate-limited, try the next one
+    lastStatus = upstream.status;
   }
 
   return res.status(lastStatus).json({ error: "All RapidAPI keys exhausted their quota" });

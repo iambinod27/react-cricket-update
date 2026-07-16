@@ -1,6 +1,7 @@
 import unixTimeConvert from "@/utils/dateConveter";
 import { FC } from "react";
 import { MapPin, Calendar } from "lucide-react";
+import TeamLogo from "./TeamLogo";
 
 interface Innings {
   overs: number;
@@ -20,8 +21,8 @@ interface ScorecardInterface {
       matchFormat: string;
       seriesName: string;
       venueInfo: { ground: string; city: string };
-      team1: { teamSName: string };
-      team2: { teamSName: string };
+      team1: { teamSName: string; imageId: number };
+      team2: { teamSName: string; imageId: number };
       status: string;
       startDate: number;
     };
@@ -37,25 +38,34 @@ const TeamScoreLine = ({
   name,
   score,
   isTest,
+  imageID,
 }: {
   name: string;
   score?: TeamScore;
   isTest: boolean;
+  imageID?: number;
 }) => {
   if (!score) {
     return (
       <div className="flex justify-between items-center">
-        <p className="text-[18px] font-[700]">{name}</p>
+        <div className="flex items-center gap-[8px]">
+          <TeamLogo imageID={imageID} />
+          <p className="text-[18px] font-[700]">{name}</p>
+        </div>
         <p className="font-[400] text-[16px] text-[#999]">Yet to bat</p>
       </div>
     );
   }
+
   const wicketsDisplay = (innings: Innings) =>
-    innings.wickets !== undefined ? innings.wickets : "10"; // missing = all out
-  
+    innings.wickets !== undefined ? innings.wickets : "10";
+
   return (
     <div className="flex justify-between items-center">
-      <p className="text-[18px] font-[700]">{name}</p>
+      <div className="flex items-center gap-[8px]">
+        <TeamLogo imageID={imageID} />
+        <p className="text-[18px] font-[700]">{name}</p>
+      </div>
       <div className="flex items-baseline gap-[8px]">
         {isTest ? (
           <>
@@ -79,7 +89,7 @@ const TeamScoreLine = ({
               <span className="text-[13px] font-[400] text-[#3f3f3f]">
                 ({score.inngs1.overs} ov)
               </span>
-              {score.inngs1.runs}/{score.inngs1.wickets}
+              {score.inngs1.runs}/{wicketsDisplay(score.inngs1)}
             </span>
           )
         )}
@@ -134,11 +144,13 @@ const Scorecard: FC<ScorecardInterface> = ({ info }) => {
           name={info.matchInfo.team1.teamSName}
           score={info.matchScore?.team1Score}
           isTest={isTest}
+          imageID={info.matchInfo.team1.imageId}
         />
         <TeamScoreLine
           name={info.matchInfo.team2.teamSName}
           score={info.matchScore?.team2Score}
           isTest={isTest}
+          imageID={info.matchInfo.team2.imageId}
         />
       </div>
 

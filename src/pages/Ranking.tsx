@@ -9,6 +9,7 @@ import {
 import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { TrendingUp, TrendingDown, Minus, Trophy } from "lucide-react";
+import { getCountryFlag } from "@/utils/countryFlag";
 
 const RankAvatar = ({ imageID, name }: { imageID: number; name: string }) => {
   const dispatch = useAppDispatch();
@@ -58,16 +59,22 @@ const categories: { key: RankCategory; label: string }[] = [
 const Ranking = () => {
   const dispatch = useAppDispatch();
   const { RankLoading, batsmen, bowlers } = useAppSelector(
-    (state: RootState) => state.ranking
+    (state: RootState) => state.ranking,
   );
   const [activeFormat, setActiveFormat] = useState<RankFormat>("test");
   const [activeCategory, setActiveCategory] = useState<RankCategory>("batsmen");
 
   useEffect(() => {
-    dispatch(getIccPlayerRaking({ category: activeCategory, formatType: activeFormat }));
+    dispatch(
+      getIccPlayerRaking({
+        category: activeCategory,
+        formatType: activeFormat,
+      }),
+    );
   }, [dispatch, activeCategory, activeFormat]);
 
-  const rankList = (activeCategory === "batsmen" ? batsmen : bowlers).rank ?? [];
+  const rankList =
+    (activeCategory === "batsmen" ? batsmen : bowlers).rank ?? [];
   const topThree = rankList.slice(0, 3);
   const rest = rankList.slice(3);
 
@@ -127,10 +134,18 @@ const Ranking = () => {
                 <div className="w-[70px] h-[70px] rounded-full overflow-hidden border-[3px] border-white mb-[10px]">
                   <RankAvatar imageID={player.faceImageId} name={player.name} />
                 </div>
-                <span className="text-[13px] font-[600] opacity-90">#{player.rank}</span>
-                <span className="text-[17px] font-[700] leading-tight">{player.name}</span>
-                <span className="text-[13px] opacity-90">{player.country}</span>
-                <span className="mt-[6px] text-[22px] font-[800]">{player.points}</span>
+                <span className="text-[13px] font-[600] opacity-90">
+                  #{player.rank}
+                </span>
+                <span className="text-[17px] font-[700] leading-tight">
+                  {player.name}
+                </span>
+                <p className="text-[13px] text-[#999] flex items-center gap-[4px]">
+                  <span>{getCountryFlag(player.country)}</span> {player.country}
+                </p>
+                <span className="mt-[6px] text-[22px] font-[800]">
+                  {player.points}
+                </span>
               </div>
             ))}
           </div>
@@ -141,16 +156,25 @@ const Ranking = () => {
                 key={player.id}
                 className="flex items-center gap-[15px] px-[18px] py-[12px] [&:not(:last-child)]:border-b border-[#f0f0f0] hover:bg-[#fafafa] transition-colors"
               >
-                <span className="w-[24px] text-[15px] font-[700] text-[#666]">{player.rank}</span>
+                <span className="w-[24px] text-[15px] font-[700] text-[#666]">
+                  {player.rank}
+                </span>
                 <div className="w-[38px] h-[38px] rounded-full overflow-hidden shrink-0">
                   <RankAvatar imageID={player.faceImageId} name={player.name} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[15px] font-[600] truncate">{player.name}</p>
-                  <p className="text-[13px] text-[#999]">{player.country}</p>
+                  <p className="text-[15px] font-[600] truncate">
+                    {player.name}
+                  </p>
+                  <p className="text-[13px] text-[#999] flex items-center gap-[4px]">
+                    <span>{getCountryFlag(player.country)}</span>{" "}
+                    {player.country}
+                  </p>
                 </div>
                 <TrendIcon diff={player.diff} />
-                <span className="w-[50px] text-right text-[16px] font-[700]">{player.points}</span>
+                <span className="w-[50px] text-right text-[16px] font-[700]">
+                  {player.points}
+                </span>
               </div>
             ))}
           </div>
